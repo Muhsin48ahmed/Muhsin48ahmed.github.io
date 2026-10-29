@@ -16,7 +16,7 @@ export const portfolio: Portfolio = {
       'I enjoy owning features end to end — from database and API design to the interfaces citizens and officers use every day — and I bring machine learning, analytics and visualization skills to the products I build.',
     ],
     languages: ['English', 'Swahili', 'Somali', 'Arabic'],
-    socials: [{ label: 'GitHub', href: 'https://github.com/muhsin48' }],
+    socials: [{ label: 'GitHub', href: 'https://github.com/Muhsin48ahmed' }],
   },
   stats: [
     { value: '53k+', label: 'applications processed on the platform I build' },
@@ -126,7 +126,7 @@ export const portfolio: Portfolio = {
         'Translated results into customer-retention recommendations.',
       ],
       stack: ['Python', 'scikit-learn', 'XGBoost', 'SMOTE'],
-      repoUrl: 'https://github.com/muhsin48/PREDICTION-OF-CUSTOMER-CHURN',
+      repoUrl: 'https://github.com/Muhsin48ahmed/PREDICTION-OF-CUSTOMER-CHURN',
     },
     {
       title: 'Stream254 Recommender',
@@ -136,7 +136,7 @@ export const portfolio: Portfolio = {
       impact: '100k+ ratings · 5 models compared',
       highlights: ['Evaluated with RMSE and MAE; tackled cold-start and data sparsity.'],
       stack: ['Python', 'Surprise', 'pandas'],
-      repoUrl: 'https://github.com/muhsin48/Recommendation-system-project',
+      repoUrl: 'https://github.com/Muhsin48ahmed/Recommendation-system-project',
     },
   ],
   awards: [
