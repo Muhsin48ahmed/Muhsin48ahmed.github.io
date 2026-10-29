@@ -22,7 +22,7 @@ export function Projects({ items }: { items: Project[] }) {
         <p data-reveal className="mb-4 font-mono text-xs text-slate-500">
           Click a screen — or pick a project:
         </p>
-        <ul data-reveal className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul data-reveal className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {items.map((project, i) => (
             <li key={project.title}>
               <button

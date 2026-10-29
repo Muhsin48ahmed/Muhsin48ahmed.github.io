@@ -12,8 +12,13 @@ const CITY_PATH_START: Vec3 = [-9, -5, -74]
 const CITY_PATH_END: Vec3 = [9, -5, -98]
 const MIN_TOWER = 3
 const MAX_TOWER = 8
-const SCREEN_RADIUS = 11
-const SCREEN_SPREAD = 0.62 // radians either side of centre
+export const SCREEN_WIDTH = 4.2
+const SCREEN_GAP = 0.7
+const SCREEN_RADIUS = 12
+/** Angle between neighbouring screens, so the arc grows with the project count instead of overlapping. */
+const SCREEN_STEP = (SCREEN_WIDTH + SCREEN_GAP) / SCREEN_RADIUS
+/** How far behind the viewpoint the overview camera sits, so the outermost screens stay in frame. */
+const OVERVIEW_PULLBACK = 8
 const FOCUS_DISTANCE = 6
 
 export interface ScreenPlacement {
@@ -40,7 +45,7 @@ export function milestoneHeight(index: number, count: number): number {
 /** Project screens on an arc around the viewpoint, each turned to face it. */
 export function screenPlacements(count: number): ScreenPlacement[] {
   return Array.from({ length: count }, (_, i) => {
-    const angle = count === 1 ? 0 : lerp(-SCREEN_SPREAD, SCREEN_SPREAD, i / (count - 1))
+    const angle = (i - (count - 1) / 2) * SCREEN_STEP
     const [vx, vy, vz] = PROJECT_VIEWPOINT
     return {
       position: [vx + SCREEN_RADIUS * Math.sin(angle), vy, vz - SCREEN_RADIUS * Math.cos(angle)],
@@ -71,7 +76,7 @@ export function cameraKeyframes(journeyCount: number): Pose[] {
     { eye: offset(ORB_ARENA, 0, 1.2, 12), focus: ORB_ARENA },
     ...journey,
     {
-      eye: offset(PROJECT_VIEWPOINT, 0, 0.8, 5),
+      eye: offset(PROJECT_VIEWPOINT, 0, 0.8, OVERVIEW_PULLBACK),
       focus: offset(PROJECT_VIEWPOINT, 0, 0, -SCREEN_RADIUS),
       framing: 0,
     },

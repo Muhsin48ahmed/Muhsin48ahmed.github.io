@@ -4,12 +4,12 @@ import { useMemo, useRef } from 'react'
 import { AdditiveBlending, Color, MathUtils, ShaderMaterial, type Group } from 'three'
 import type { Project } from '../../content/types'
 import { isFromUi } from '../helpers'
-import { PROJECT_VIEWPOINT, type ScreenPlacement } from '../layout'
+import { PROJECT_VIEWPOINT, SCREEN_WIDTH, type ScreenPlacement } from '../layout'
 import { useWorld } from '../store'
 import { CYAN, DISPLAY_FONT, GLOW, LIME, MONO_FONT, PINK } from '../theme'
 import { useZoneActive } from '../useZoneActive'
 
-const WIDTH = 4.2
+const WIDTH = SCREEN_WIDTH
 const HEIGHT = 2.6
 const PAD = 0.28
 const MAX_TILT = 0.18

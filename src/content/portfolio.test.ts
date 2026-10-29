@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { portfolio } from './portfolio'
 import { SECTIONS, captionFor, journeyStopId } from './sections'
 
@@ -15,6 +17,12 @@ describe('portfolio content', () => {
       ...portfolio.projects.flatMap((p) => [p.repoUrl, p.demoUrl]).filter(Boolean),
     ]
     expect(links.every((href) => href!.startsWith('https://'))).toBe(true)
+  })
+
+  test('links the résumé button to a PDF that ships in public/', () => {
+    const { resumeUrl } = portfolio.profile
+    expect(resumeUrl).toMatch(/^\/.+\.pdf$/)
+    expect(existsSync(resolve(__dirname, '../../public', resumeUrl!.slice(1)))).toBe(true)
   })
 
   test('has a journey and projects for the 3D world to show', () => {

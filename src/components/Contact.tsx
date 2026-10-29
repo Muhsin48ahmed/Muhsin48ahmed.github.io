@@ -20,7 +20,11 @@ export function Contact({ profile }: { profile: Profile }) {
           </a>
           <div data-reveal className="mt-10 flex flex-wrap items-center gap-3">
             {profile.resumeUrl && (
-              <a href={profile.resumeUrl} className="btn bg-white text-ink hover:bg-neon-cyan">
+              <a
+                href={profile.resumeUrl}
+                download={`${profile.name.replace(/\s+/g, '-')}-CV.pdf`}
+                className="btn bg-white text-ink hover:bg-neon-cyan"
+              >
                 Download résumé
               </a>
             )}

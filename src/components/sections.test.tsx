@@ -80,12 +80,13 @@ describe('ProjectModal', () => {
   })
 
   test('shows the focused project with safe external links', () => {
-    useWorld.getState().focusProject(2)
+    const withRepo = projects.findIndex((p) => p.repoUrl)
+    useWorld.getState().focusProject(withRepo)
     render(<ProjectModal projects={projects} />)
-    const dialog = screen.getByRole('dialog', { name: projects[2]!.title })
-    expect(within(dialog).getByText(projects[2]!.impact)).toBeInTheDocument()
+    const dialog = screen.getByRole('dialog', { name: projects[withRepo]!.title })
+    expect(within(dialog).getByText(projects[withRepo]!.impact)).toBeInTheDocument()
     const repo = within(dialog).getByRole('link', { name: /code/i })
-    expect(repo).toHaveAttribute('href', projects[2]!.repoUrl)
+    expect(repo).toHaveAttribute('href', projects[withRepo]!.repoUrl)
     expect(repo).toHaveAttribute('rel', 'noopener noreferrer')
   })
 
@@ -124,10 +125,12 @@ describe('Contact', () => {
   })
 
   test('shows a resume link only when one is configured', () => {
-    const { rerender } = render(<Contact profile={portfolio.profile} />)
+    const { rerender } = render(<Contact profile={{ ...portfolio.profile, resumeUrl: undefined }} />)
     expect(screen.queryByRole('link', { name: /résumé/i })).not.toBeInTheDocument()
     rerender(<Contact profile={{ ...portfolio.profile, resumeUrl: '/resume.pdf' }} />)
-    expect(screen.getByRole('link', { name: /résumé/i })).toHaveAttribute('href', '/resume.pdf')
+    const link = screen.getByRole('link', { name: /résumé/i })
+    expect(link).toHaveAttribute('href', '/resume.pdf')
+    expect(link).toHaveAttribute('download', 'Muhsin-Ahmed-CV.pdf')
   })
 })
 

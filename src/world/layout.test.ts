@@ -1,6 +1,7 @@
 import { SECTIONS, cameraStopIds } from '../content/sections'
 import {
   PROJECT_VIEWPOINT,
+  SCREEN_WIDTH,
   cameraKeyframes,
   milestoneHeight,
   milestoneSites,
@@ -41,6 +42,13 @@ describe('screenPlacements', () => {
       const len = Math.hypot(...toViewer)
       const dot = toViewer.reduce((s, v, i) => s + (v / len) * normal[i]!, 0)
       expect(dot).toBeCloseTo(1)
+    })
+  })
+
+  test.each([3, 4, 5, 6])('leaves a gap between neighbouring screens (%i screens)', (count) => {
+    const screens = screenPlacements(count)
+    screens.slice(1).forEach((screen, i) => {
+      expect(distance(screen.position, screens[i]!.position)).toBeGreaterThan(SCREEN_WIDTH)
     })
   })
 

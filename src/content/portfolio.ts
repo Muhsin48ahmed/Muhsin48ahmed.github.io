@@ -9,6 +9,8 @@ export const portfolio: Portfolio = {
       'I build production systems end to end — Go APIs, React frontends, PostgreSQL — and bring the data science that makes them smarter.',
     location: 'Nairobi, Kenya',
     email: 'nishum48ahmed@gmail.com',
+    // Public web copy (no phone number), exported from resume/ with `node build-resume.cjs … --web`.
+    resumeUrl: '/resume.pdf',
     bio: [
       'I’m a full-stack software developer with a background in data science. Right now I’m building a production e-government platform that digitizes land administration, building permits, property tax, civil registration and revenue collection for a regional government.',
       'I enjoy owning features end to end — from database and API design to the interfaces citizens and officers use every day — and I bring machine learning, analytics and visualization skills to the products I build.',
@@ -85,6 +87,21 @@ export const portfolio: Portfolio = {
         'Executive analytics on 17 SQL views and 10 report templates, reconciled to the cent.',
       ],
       stack: ['Go', 'Gin', 'PostgreSQL', 'NATS', 'React', 'Remix', 'TypeScript'],
+    },
+    {
+      title: 'Nairobi Surge Pricing Prediction',
+      category: 'Capstone · ML + geospatial',
+      summary:
+        'Predicts whether a Nairobi ride-hailing trip will be surge-priced and maps where and when surge concentrates, from 3.7M trips plus weather data, triangulated with 35 driver, passenger and expert interviews.',
+      impact: '3.7M trips · ROC-AUC 0.78',
+      highlights: [
+        'Compared six classifiers with Optuna tuning on time-ordered CV; calibrated XGBoost scored ROC-AUC 0.78 on a sealed test set.',
+        'Excluded leaking features and reported honestly that surge size is not predictable from trip-level data.',
+        'Mapped evening peaks (17:00–21:00), rain amplification and a CBD hotspot cluster with Folium and K-means.',
+        'Three-page Streamlit dashboard (overview, hotspot map, predict), with pytest tests and full reproducibility docs.',
+      ],
+      stack: ['Python', 'XGBoost', 'Optuna', 'GeoPandas', 'Folium', 'Streamlit'],
+      repoUrl: 'https://github.com/Muhsin48ahmed/nairobi-surge-analysis',
     },
     {
       title: 'Unified Public Health Information System',
