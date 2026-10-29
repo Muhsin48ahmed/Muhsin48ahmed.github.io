@@ -1,19 +1,31 @@
 import { render, screen } from '@testing-library/react'
 import App from './App'
-import { SECTIONS } from './content/sections'
+import { portfolio } from './content/portfolio'
+import { SECTIONS, cameraStopIds } from './content/sections'
 
-vi.mock('./scene/Scene', () => ({ default: () => <div data-testid="scene" /> }))
+vi.mock('./world/World', () => ({ default: () => <div data-testid="world" /> }))
+vi.mock('lenis', () => ({
+  default: class {
+    stop() {}
+    start() {}
+    destroy() {}
+  },
+}))
 
 describe('App', () => {
-  test('renders every section in order with its figure caption', () => {
+  test('renders every section in order', () => {
     const { container } = render(<App />)
     const ids = Array.from(container.querySelectorAll('main > section')).map((s) => s.id)
     expect(ids).toEqual(SECTIONS.map((s) => s.id))
-    SECTIONS.forEach((s) => expect(screen.getByText(s.figure)).toBeInTheDocument())
   })
 
-  test('mounts the 3D scene', async () => {
+  test('has a DOM element for every camera stop', () => {
     render(<App />)
-    expect(await screen.findByTestId('scene')).toBeInTheDocument()
+    cameraStopIds(portfolio.journey.length).forEach((id) => expect(document.getElementById(id)).not.toBeNull())
+  })
+
+  test('mounts the 3D world', async () => {
+    render(<App />)
+    expect(await screen.findByTestId('world')).toBeInTheDocument()
   })
 })

@@ -1,116 +1,133 @@
 import type { Portfolio } from './types'
 
-/**
- * All site copy lives here. Everything below is PLACEHOLDER content —
- * replace it with your own bio, roles, projects and links.
- */
+/** All site copy, taken from the CV. Edit here — the 3D world reads from this too. */
 export const portfolio: Portfolio = {
   profile: {
     name: 'Muhsin Ahmed',
-    role: 'Data Scientist & Software Engineer',
+    role: 'Full-Stack Engineer & Data Scientist',
     tagline:
-      'I turn messy data into models that ship — from exploratory analysis to production ML systems with clean, tested code.',
-    location: 'Your City, Country',
-    email: 'you@example.com',
-    resumeUrl: '/resume.pdf',
+      'I build production systems end to end — Go APIs, React frontends, PostgreSQL — and bring the data science that makes them smarter.',
+    location: 'Nairobi, Kenya',
+    email: 'nishum48ahmed@gmail.com',
     bio: [
-      'I’m a data scientist with a software engineering background. I like the whole lifecycle: framing the problem with stakeholders, digging into the data, building and validating models, and getting them into production where they actually move a metric.',
-      'Because I write software as well as notebooks, my models come with APIs, tests, monitoring and pipelines that other engineers are happy to own.',
+      'I’m a full-stack software developer with a background in data science. Right now I’m building a production e-government platform that digitizes land administration, building permits, property tax, civil registration and revenue collection for a regional government.',
+      'I enjoy owning features end to end — from database and API design to the interfaces citizens and officers use every day — and I bring machine learning, analytics and visualization skills to the products I build.',
     ],
-    socials: [
-      { label: 'GitHub', href: 'https://github.com/your-handle' },
-      { label: 'LinkedIn', href: 'https://www.linkedin.com/in/your-handle' },
-      { label: 'Kaggle', href: 'https://www.kaggle.com/your-handle' },
-    ],
+    languages: ['English', 'Swahili', 'Somali', 'Arabic'],
+    socials: [{ label: 'GitHub', href: 'https://github.com/muhsin48' }],
   },
   stats: [
-    { value: '5+', label: 'years in data & software' },
-    { value: '20+', label: 'models in production' },
-    { value: '$2M', label: 'annual impact delivered' },
+    { value: '53k+', label: 'applications processed on the platform I build' },
+    { value: '16k+', label: 'official documents issued with QR verification' },
+    { value: '<2s', label: 'search time, down from 10+ minute timeouts' },
   ],
   skillGroups: [
-    {
-      name: 'Machine Learning',
-      skills: ['scikit-learn', 'PyTorch', 'XGBoost', 'Time-series forecasting', 'NLP', 'Causal inference'],
-    },
-    {
-      name: 'Data Engineering',
-      skills: ['SQL', 'Spark', 'dbt', 'Airflow', 'Snowflake', 'Kafka'],
-    },
-    {
-      name: 'Software Engineering',
-      skills: ['Python', 'TypeScript', 'FastAPI', 'React', 'Docker', 'CI/CD'],
-    },
-    {
-      name: 'MLOps & Cloud',
-      skills: ['AWS', 'MLflow', 'Kubernetes', 'Feature stores', 'Model monitoring'],
-    },
+    { name: 'Languages', skills: ['Go', 'TypeScript', 'Python', 'SQL', 'R'] },
+    { name: 'Engineering', skills: ['React', 'Remix', 'Gin', 'REST APIs', 'NATS', 'Nx', 'Tailwind'] },
+    { name: 'Data & ML', skills: ['pandas', 'NumPy', 'scikit-learn', 'XGBoost', 'TensorFlow', 'NLP'] },
+    { name: 'Data platforms', skills: ['PostgreSQL', 'ClickHouse', 'MySQL', 'MongoDB', 'Power BI'] },
   ],
-  experience: [
+  journey: [
     {
-      role: 'Senior Data Scientist',
-      company: 'Company One',
-      period: '2023 — Present',
+      period: '2022 — 2026',
+      title: 'BSc Data Science & Analytics',
+      org: 'USIU-Africa',
+      kind: 'education',
       highlights: [
-        'Led a demand-forecasting rebuild that cut forecast error by 18% across 4,000 SKUs.',
-        'Designed the team’s model-serving platform (FastAPI + Docker) now used by 12 models.',
+        'Degree conferred September 2026.',
+        'Machine learning, data mining, big data analytics, statistical modelling, data warehousing and NLP.',
       ],
-      stack: ['Python', 'LightGBM', 'FastAPI', 'AWS'],
+      stack: ['Python', 'R', 'SQL'],
     },
     {
-      role: 'Data Scientist',
-      company: 'Company Two',
-      period: '2021 — 2023',
+      period: '2023 — 2024',
+      title: 'Data Scientist & Frontend Developer',
+      org: 'Faras Cabs',
+      kind: 'work',
       highlights: [
-        'Built a churn-propensity model that drove a retention campaign worth $1.2M/yr.',
-        'Introduced experiment design guidelines and an A/B testing library.',
+        'Built Power BI dashboards tracking ride patterns, revenue trends and operational efficiency.',
+        'Cleaned and analysed operational data into regular reports for business decisions.',
+        'Built responsive React interfaces and contributed to backend and database work.',
       ],
-      stack: ['Python', 'SQL', 'scikit-learn', 'Airflow'],
+      stack: ['Power BI', 'Python', 'React', 'SQL'],
     },
     {
-      role: 'Software Engineer',
-      company: 'Company Three',
-      period: '2019 — 2021',
+      period: '2024',
+      title: 'Data Science Core Program',
+      org: 'Moringa School',
+      kind: 'education',
+      highlights: ['Intensive program in applied data analysis, visualization and machine learning.'],
+      stack: ['pandas', 'scikit-learn', 'XGBoost'],
+    },
+    {
+      period: '2024 — Present',
+      title: 'Full-Stack Software Developer',
+      org: 'One Stop Development',
+      kind: 'work',
       highlights: [
-        'Shipped data-heavy product features end to end in TypeScript and Python.',
-        'Migrated analytics pipelines to dbt, halving data-refresh time.',
+        'Building a production e-government platform: 53,000+ applications since January 2026.',
+        'Official document generation in Somali, Amharic and English — 16,000+ documents issued.',
+        'eBirr mobile-money integration with 20,000+ payments; search cut from 10+ min to under 2 s.',
       ],
-      stack: ['TypeScript', 'React', 'PostgreSQL', 'dbt'],
+      stack: ['Go', 'PostgreSQL', 'NATS', 'React', 'Remix', 'TypeScript'],
     },
   ],
   projects: [
     {
-      title: 'Real-time Fraud Detection',
+      title: 'E-Government Platform',
+      category: 'Production · Full-stack',
       summary:
-        'Streaming anomaly detection on card transactions with a gradient-boosted model and a feature store for low-latency features.',
-      impact: '−32% fraud losses',
-      stack: ['Kafka', 'XGBoost', 'Feast', 'FastAPI'],
-      repoUrl: 'https://github.com/your-handle/fraud-detection',
+        'Digitizes land administration, building permits, property tax, civil registration and revenue collection for a regional government.',
+      impact: '53k+ applications · 20k+ payments',
+      highlights: [
+        'No-code workflow composer for versioned, multi-step approval routes.',
+        'QR-verified certificates in three languages — 16,000+ issued.',
+        'Executive analytics on 17 SQL views and 10 report templates, reconciled to the cent.',
+      ],
+      stack: ['Go', 'Gin', 'PostgreSQL', 'NATS', 'React', 'Remix', 'TypeScript'],
     },
     {
-      title: 'LLM Document Q&A',
+      title: 'Unified Public Health Information System',
+      category: 'Health data · Analysis',
       summary:
-        'Retrieval-augmented question answering over internal documents, with an evaluation harness to track answer quality.',
-      impact: '4× faster support lookups',
-      stack: ['Python', 'Embeddings', 'Vector DB', 'React'],
-      repoUrl: 'https://github.com/your-handle/doc-qa',
-      demoUrl: 'https://example.com',
+        'Consolidated multiple health data sources into one platform for Mombasa County, supporting public-health decisions and universal health coverage.',
+      impact: 'County-wide health data platform',
+      highlights: [
+        'Handled data collection and analysis in a cross-functional team, from development through deployment.',
+        'Improved access to data for county public-health decision-making.',
+      ],
+      stack: ['Data collection', 'Data analysis', 'Data integration'],
     },
     {
-      title: 'Demand Forecasting Platform',
+      title: 'Customer Churn Prediction',
+      category: 'Machine learning',
       summary:
-        'Hierarchical forecasts for thousands of products with automated backtesting and drift monitoring.',
-      impact: 'MAPE 21% → 17%',
-      stack: ['LightGBM', 'Prophet', 'Airflow', 'MLflow'],
-      repoUrl: 'https://github.com/your-handle/forecasting',
+        'Churn model on 3,333 customers with 21 features. Handled class imbalance with SMOTE and compared four model families.',
+      impact: '0.73 recall · 0.73 F1',
+      highlights: [
+        'Tuned XGBoost reached 92.4% accuracy against an 86% majority-class baseline.',
+        'Translated results into customer-retention recommendations.',
+      ],
+      stack: ['Python', 'scikit-learn', 'XGBoost', 'SMOTE'],
+      repoUrl: 'https://github.com/muhsin48/PREDICTION-OF-CUSTOMER-CHURN',
     },
     {
-      title: 'Customer Segmentation Explorer',
+      title: 'Stream254 Recommender',
+      category: 'Recommender systems',
       summary:
-        'Interactive 3D explorer for customer embeddings (UMAP + HDBSCAN) that lets marketing name and target segments.',
-      impact: '+9% campaign CTR',
-      stack: ['UMAP', 'HDBSCAN', 'Three.js', 'TypeScript'],
-      demoUrl: 'https://example.com',
+        'Personalized movie recommendations from 100,000+ MovieLens ratings, comparing KNN, SVD and NMF collaborative filtering.',
+      impact: '100k+ ratings · 5 models compared',
+      highlights: ['Evaluated with RMSE and MAE; tackled cold-start and data sparsity.'],
+      stack: ['Python', 'Surprise', 'pandas'],
+      repoUrl: 'https://github.com/muhsin48/Recommendation-system-project',
     },
+  ],
+  awards: [
+    {
+      date: 'Sep 2026',
+      title: 'Certificate of Honour — E-Government Platform Implementation',
+      issuer: 'City Administration Revenue Office',
+    },
+    { date: 'Dec 2020', title: 'President’s Award — Gold Standard', issuer: 'The Duke of Edinburgh’s International Award' },
   ],
 }

@@ -1,5 +1,5 @@
 import { portfolio } from './portfolio'
-import { SECTIONS, SECTION_IDS, figureFor } from './sections'
+import { SECTIONS, captionFor, journeyStopId } from './sections'
 
 describe('portfolio content', () => {
   test('has a name, role and contact email', () => {
@@ -17,17 +17,22 @@ describe('portfolio content', () => {
     expect(links.every((href) => href!.startsWith('https://'))).toBe(true)
   })
 
-  test('has one skill group per cluster in the skills scene', () => {
-    expect(portfolio.skillGroups).toHaveLength(4)
+  test('has a journey and projects for the 3D world to show', () => {
+    expect(portfolio.journey.length).toBeGreaterThan(0)
+    expect(portfolio.projects.length).toBeGreaterThan(0)
   })
 })
 
 describe('sections', () => {
   test('ids are unique', () => {
-    expect(new Set(SECTION_IDS).size).toBe(SECTIONS.length)
+    expect(new Set(SECTIONS.map((s) => s.id)).size).toBe(SECTIONS.length)
   })
 
-  test('figureFor returns the caption for a section', () => {
-    expect(figureFor('projects')).toContain('loss landscape')
+  test('captionFor returns the zone caption', () => {
+    expect(captionFor('projects')).toContain('holo deck')
+  })
+
+  test('journeyStopId names each milestone stop', () => {
+    expect(journeyStopId(2)).toBe('journey-2')
   })
 })

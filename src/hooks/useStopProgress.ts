@@ -1,11 +1,11 @@
 import { useEffect, useRef, type RefObject } from 'react'
-import { sectionProgress } from '../scene/morph'
+import { sectionProgress } from '../world/morph'
 
 /**
- * Fractional index of the section under the middle of the viewport.
- * Returned as a ref (not state) so scrolling never re-renders React — the 3D scene reads it every frame.
+ * Fractional index of the camera stop under the middle of the viewport.
+ * Returned as a ref (not state) so scrolling never re-renders React — the 3D world reads it every frame.
  */
-export function useSectionProgress(ids: readonly string[]): RefObject<number> {
+export function useStopProgress(ids: readonly string[]): RefObject<number> {
   const progress = useRef(0)
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export function useSectionProgress(ids: readonly string[]): RefObject<number> {
       const tops = ids
         .map((id) => document.getElementById(id))
         .filter((el): el is HTMLElement => el !== null)
-        .map((el) => el.offsetTop)
+        .map((el) => el.getBoundingClientRect().top + window.scrollY)
       const readingLine = window.scrollY + window.innerHeight / 2
       progress.current = sectionProgress(tops, document.documentElement.scrollHeight, readingLine)
     }

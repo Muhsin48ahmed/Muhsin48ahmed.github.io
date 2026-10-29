@@ -4,8 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // The lazy-loaded Scene chunk is mostly three.js and loads after the page content.
-  build: { chunkSizeWarningLimit: 1000 },
+  // Both big chunks are lazy-loaded after the page text: World (three.js) and SkillOrbs (Rapier WASM).
+  build: { chunkSizeWarningLimit: 2500 },
   test: {
     globals: true,
     environment: 'jsdom',
@@ -14,7 +14,7 @@ export default defineConfig({
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],
       // WebGL components need a real GPU context; they are verified in the browser instead.
-      exclude: ['src/**/*.test.{ts,tsx}', 'src/test/**', 'src/main.tsx', 'src/scene/*.tsx'],
+      exclude: ['src/**/*.test.{ts,tsx}', 'src/test/**', 'src/main.tsx', 'src/world/**/*.tsx', 'src/world/theme.ts', 'src/world/useZoneActive.ts'],
       thresholds: { lines: 80, functions: 80, branches: 80, statements: 80 },
     },
   },

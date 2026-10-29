@@ -1,42 +1,56 @@
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useMemo } from 'react'
 import { About } from './components/About'
 import { Contact } from './components/Contact'
+import { Cursor } from './components/Cursor'
 import { ErrorBoundary } from './components/ErrorBoundary'
-import { Experience } from './components/Experience'
 import { Hero } from './components/Hero'
+import { Journey } from './components/Journey'
+import { Loader } from './components/Loader'
 import { Nav } from './components/Nav'
+import { ProjectModal } from './components/ProjectModal'
 import { Projects } from './components/Projects'
+import { StaticBackdrop } from './components/StaticBackdrop'
 import { portfolio } from './content/portfolio'
-import { SECTION_IDS } from './content/sections'
-import { useSectionProgress } from './hooks/useSectionProgress'
+import { cameraStopIds } from './content/sections'
+import { useLenis } from './hooks/useLenis'
+import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion'
+import { useReveal } from './hooks/useReveal'
+import { useStopProgress } from './hooks/useStopProgress'
 
 // three.js is the bulk of the bundle; load it after the text so content paints first.
-const Scene = lazy(() => import('./scene/Scene'))
+const World = lazy(() => import('./world/World'))
 
 export default function App() {
-  const progress = useSectionProgress(SECTION_IDS)
-  const { profile, stats, skillGroups, experience, projects } = portfolio
+  const { profile, stats, skillGroups, journey, projects, awards } = portfolio
+  const stopIds = useMemo(() => cameraStopIds(journey.length), [journey.length])
+  const progress = useStopProgress(stopIds)
+  const isReducedMotion = usePrefersReducedMotion()
+  useLenis(!isReducedMotion)
+  useReveal()
 
   return (
     <>
-      <ErrorBoundary fallback={null}>
+      <ErrorBoundary fallback={<StaticBackdrop />}>
         <Suspense fallback={null}>
-          <Scene progress={progress} />
+          <World progress={progress} portfolio={portfolio} isReducedMotion={isReducedMotion} />
         </Suspense>
       </ErrorBoundary>
-      {/* Darkens the scene behind the text column so copy stays readable. */}
+      {/* Darkens the world behind the text column so copy stays readable. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-[5] bg-ink/30 lg:bg-transparent lg:bg-gradient-to-r lg:from-ink/85 lg:via-ink/30 lg:to-transparent"
+        className="pointer-events-none fixed inset-0 -z-[5] bg-gradient-to-b from-ink/70 via-ink/30 to-transparent lg:bg-gradient-to-r lg:from-ink/80 lg:via-ink/20 lg:to-transparent"
       />
+      <Loader />
+      <Cursor />
       <Nav name={profile.name} />
       <main>
         <Hero profile={profile} stats={stats} />
-        <About profile={profile} skillGroups={skillGroups} />
-        <Experience items={experience} />
+        <About profile={profile} skillGroups={skillGroups} awards={awards} />
+        <Journey items={journey} />
         <Projects items={projects} />
         <Contact profile={profile} />
       </main>
+      <ProjectModal projects={projects} />
     </>
   )
 }

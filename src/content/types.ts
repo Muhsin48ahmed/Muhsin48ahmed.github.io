@@ -11,6 +11,7 @@ export interface Profile {
   email: string
   resumeUrl?: string
   bio: string[]
+  languages: string[]
   socials: SocialLink[]
 }
 
@@ -24,27 +25,38 @@ export interface SkillGroup {
   skills: string[]
 }
 
-export interface Experience {
-  role: string
-  company: string
+export interface Milestone {
   period: string
+  title: string
+  org: string
+  kind: 'work' | 'education'
   highlights: string[]
   stack: string[]
 }
 
 export interface Project {
   title: string
+  category: string
   summary: string
   impact: string
+  highlights: string[]
   stack: string[]
   repoUrl?: string
   demoUrl?: string
+}
+
+export interface Award {
+  date: string
+  title: string
+  issuer: string
 }
 
 export interface Portfolio {
   profile: Profile
   stats: Stat[]
   skillGroups: SkillGroup[]
-  experience: Experience[]
+  /** Oldest first — the camera flies through it in time order. */
+  journey: Milestone[]
   projects: Project[]
+  awards: Award[]
 }

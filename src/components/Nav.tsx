@@ -10,21 +10,22 @@ const initials = (name: string) =>
 
 export function Nav({ name }: { name: string }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-20 border-b border-line bg-ink/60 backdrop-blur-md">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-8">
+    <header className="fixed inset-x-0 top-0 z-30">
+      <div className="scroll-progress h-px bg-gradient-to-r from-neon-cyan via-neon-violet to-neon-pink" />
+      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-10">
         <a
           href="#hero"
           aria-label={`${name} — back to top`}
-          className="grid size-9 place-items-center rounded-lg border border-line font-mono text-sm text-neon-cyan"
+          className="grid size-10 place-items-center rounded-xl border border-line bg-white/[0.04] font-display text-sm font-bold text-white backdrop-blur-xl"
         >
           {initials(name)}
         </a>
-        <ul className="flex overflow-x-auto text-xs [scrollbar-width:none] sm:gap-2 sm:text-sm">
+        <ul className="flex items-center overflow-x-auto rounded-full border border-line bg-white/[0.04] p-1 text-xs backdrop-blur-xl [scrollbar-width:none] sm:text-sm">
           {SECTIONS.slice(1).map((section) => (
             <li key={section.id}>
               <a
                 href={`#${section.id}`}
-                className="block rounded-full px-2.5 py-1.5 whitespace-nowrap sm:px-3 text-slate-400 transition hover:bg-white/5 hover:text-white"
+                className="block rounded-full px-3 py-1.5 whitespace-nowrap text-slate-400 transition hover:bg-white/10 hover:text-white sm:px-4"
               >
                 {section.label}
               </a>
