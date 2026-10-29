@@ -56,6 +56,11 @@ describe('project charts', () => {
     })
   })
 
+  test('the surge capstone links its live Streamlit demo', () => {
+    const surge = portfolio.projects.find((p) => p.lab === 'surge')
+    expect(surge?.demoUrl).toMatch(/^https:\/\/[a-z0-9-]+\.streamlit\.app\/?$/)
+  })
+
   test('exactly one project hosts the surge lab', () => {
     expect(portfolio.projects.filter((p) => p.lab === 'surge')).toHaveLength(1)
   })

@@ -102,6 +102,7 @@ export const portfolio: Portfolio = {
       ],
       stack: ['Python', 'XGBoost', 'Optuna', 'GeoPandas', 'Folium', 'Streamlit'],
       repoUrl: 'https://github.com/Muhsin48ahmed/nairobi-surge-analysis',
+      demoUrl: 'https://nairobi-surge-analysis-czq7b3kpgxgdttuq4csvud.streamlit.app/',
       charts: [
         { src: '/charts/surge-choropleth.png', alt: 'Choropleth of Nairobi neighbourhoods coloured by surge rate' },
         { src: '/charts/surge-heatmap.png', alt: 'Heatmap of mean surge multiplier by day of week and hour' },
