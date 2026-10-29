@@ -102,6 +102,12 @@ export const portfolio: Portfolio = {
       ],
       stack: ['Python', 'XGBoost', 'Optuna', 'GeoPandas', 'Folium', 'Streamlit'],
       repoUrl: 'https://github.com/Muhsin48ahmed/nairobi-surge-analysis',
+      charts: [
+        { src: '/charts/surge-choropleth.png', alt: 'Choropleth of Nairobi neighbourhoods coloured by surge rate' },
+        { src: '/charts/surge-heatmap.png', alt: 'Heatmap of mean surge multiplier by day of week and hour' },
+        { src: '/charts/surge-roc.png', alt: 'ROC curve of the calibrated XGBoost classifier' },
+      ],
+      lab: 'surge',
     },
     {
       title: 'Unified Public Health Information System',
@@ -127,6 +133,10 @@ export const portfolio: Portfolio = {
       ],
       stack: ['Python', 'scikit-learn', 'XGBoost', 'SMOTE'],
       repoUrl: 'https://github.com/Muhsin48ahmed/PREDICTION-OF-CUSTOMER-CHURN',
+      charts: [
+        { src: '/charts/churn-roc.png', alt: 'ROC curves of the churn models on train and test sets' },
+        { src: '/charts/churn-confusion.png', alt: 'Confusion matrix of the tuned XGBoost churn model on the test set' },
+      ],
     },
     {
       title: 'Stream254 Recommender',
@@ -137,6 +147,7 @@ export const portfolio: Portfolio = {
       highlights: ['Evaluated with RMSE and MAE; tackled cold-start and data sparsity.'],
       stack: ['Python', 'Surprise', 'pandas'],
       repoUrl: 'https://github.com/Muhsin48ahmed/Recommendation-system-project',
+      charts: [{ src: '/charts/recommender-approach.png', alt: 'Diagram comparing content-based and collaborative filtering' }],
     },
   ],
   awards: [

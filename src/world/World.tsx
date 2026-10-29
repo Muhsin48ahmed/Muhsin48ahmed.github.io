@@ -1,5 +1,5 @@
-import { Environment, Lightformer } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
+import { Environment, Lightformer, PerformanceMonitor } from '@react-three/drei'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Suspense, lazy, useEffect, useMemo, type RefObject } from 'react'
 import { StaticBackdrop } from '../components/StaticBackdrop'
 import type { Portfolio } from '../content/types'
@@ -8,6 +8,9 @@ import { CameraRig } from './CameraRig'
 import { DataDust } from './DataDust'
 import { Effects } from './Effects'
 import { zoneStops } from './helpers'
+import { initialTier, readDeviceHints, useQuality } from './quality'
+import { WarpStreaks } from './WarpStreaks'
+import { LightOrbs } from './zones/LightOrbs'
 import { HERO_CORE, cameraKeyframes, projectFocusPose, screenPlacements } from './layout'
 import { useWorld } from './store'
 import { INK } from './theme'
@@ -29,6 +32,16 @@ interface WorldProps {
   isReducedMotion: boolean
 }
 
+/** Applies the quality tier's pixel ratio and steps the tier up or down from the measured frame rate. */
+function QualityController() {
+  const setDpr = useThree((s) => s.setDpr)
+  const maxDpr = useQuality((s) => s.settings.maxDpr)
+  const decline = useQuality((s) => s.decline)
+  const incline = useQuality((s) => s.incline)
+  useEffect(() => setDpr(Math.min(window.devicePixelRatio || 1, maxDpr)), [setDpr, maxDpr])
+  return <PerformanceMonitor onDecline={decline} onIncline={incline} onFallback={decline} flipflops={3} />
+}
+
 /** Fires once everything inside the Suspense boundary (models, fonts, physics) is ready. */
 function SignalLoaded() {
   const markLoaded = useWorld((s) => s.markLoaded)
@@ -38,6 +51,10 @@ function SignalLoaded() {
 
 export default function World({ progress, portfolio, isReducedMotion }: WorldProps) {
   const isMobile = useMemo(() => window.matchMedia?.(MOBILE_QUERY).matches ?? false, [])
+  const startQuality = useQuality((s) => s.start)
+  const hasPhysics = useQuality((s) => s.settings.physics)
+  const dustCount = useQuality((s) => s.settings.dustCount)
+  useEffect(() => startQuality(initialTier(readDeviceHints())), [startQuality])
   const { journey, projects, skillGroups, profile } = portfolio
   const stops = useMemo(() => zoneStops(journey.length), [journey.length])
   const keyframes = useMemo(() => cameraKeyframes(journey.length), [journey.length])
@@ -48,7 +65,7 @@ export default function World({ progress, portfolio, isReducedMotion }: WorldPro
     <div aria-hidden="true" className="fixed inset-0 -z-10">
       <Canvas
         camera={{ fov: 45, near: 0.1, far: 120, position: keyframes[0]!.eye as [number, number, number] }}
-        dpr={isMobile ? [1, 1.5] : [1, 2]}
+        dpr={1}
         gl={{ antialias: false, powerPreference: 'high-performance' }}
         // Text sits above the canvas, so listen on the body to keep pointer interaction working.
         eventSource={document.body}
@@ -65,8 +82,10 @@ export default function World({ progress, portfolio, isReducedMotion }: WorldPro
           <Lightformer form="ring" intensity={2} position={[5, -2, 4]} scale={4} color="#e879f9" />
         </Environment>
 
+        <QualityController />
         <CameraRig progress={progress} keyframes={keyframes} focusPoses={focusPoses} isReducedMotion={isReducedMotion} />
-        <DataDust count={isMobile ? 1200 : 2600} isReducedMotion={isReducedMotion} />
+        <DataDust count={dustCount} isReducedMotion={isReducedMotion} />
+        <WarpStreaks />
 
         {/* One boundary per zone, so a slow asset never holds back the rest of the world. */}
         <Suspense fallback={null}>
@@ -83,7 +102,11 @@ export default function World({ progress, portfolio, isReducedMotion }: WorldPro
           />
         </Suspense>
         <Suspense fallback={null}>
-          <SkillOrbs stop={stops.about} skillGroups={skillGroups} />
+          {hasPhysics ? (
+            <SkillOrbs stop={stops.about} skillGroups={skillGroups} />
+          ) : (
+            <LightOrbs stop={stops.about} skillGroups={skillGroups} />
+          )}
         </Suspense>
         <Suspense fallback={null}>
           <DataCity stops={stops.journey} journey={journey} />

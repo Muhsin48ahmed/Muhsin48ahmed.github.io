@@ -1,5 +1,8 @@
 import type { Profile } from '../content/types'
+import { ContactForm } from './ContactForm'
 import { SectionHeader } from './SectionHeader'
+
+const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID ?? ''
 
 export function Contact({ profile }: { profile: Profile }) {
   return (
@@ -14,13 +17,17 @@ export function Contact({ profile }: { profile: Profile }) {
           <a
             data-reveal
             href={`mailto:${profile.email}`}
-            className="text-gradient mt-10 inline-block font-display text-[clamp(1.35rem,3.6vw,2.9rem)] font-bold [overflow-wrap:anywhere] hover:opacity-80"
+            className="text-gradient mt-8 inline-block font-display text-[clamp(1.35rem,3.6vw,2.9rem)] font-bold [overflow-wrap:anywhere] hover:opacity-80"
           >
             {profile.email}
           </a>
-          <div data-reveal className="mt-10 flex flex-wrap items-center gap-3">
+          <div data-reveal className="mt-8">
+            <ContactForm to={profile.email} formId={FORMSPREE_ID} />
+          </div>
+          <div data-reveal className="mt-6 flex flex-wrap items-center gap-3">
             {profile.resumeUrl && (
               <a
+                data-magnetic
                 href={profile.resumeUrl}
                 download={`${profile.name.replace(/\s+/g, '-')}-CV.pdf`}
                 className="btn bg-white text-ink hover:bg-neon-cyan"
@@ -34,6 +41,7 @@ export function Contact({ profile }: { profile: Profile }) {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-magnetic
                 className="btn border border-line bg-white/[0.04] text-white backdrop-blur-xl hover:border-neon-violet"
               >
                 {social.label}

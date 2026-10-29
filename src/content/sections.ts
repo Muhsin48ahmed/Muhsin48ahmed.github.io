@@ -25,6 +25,13 @@ export function cameraStopIds(journeyCount: number): string[] {
   ]
 }
 
+/** Page section that a camera stop (index into `cameraStopIds`) belongs to. */
+export function sectionForStop(stop: number, journeyCount: number): SectionId {
+  const ids = cameraStopIds(journeyCount)
+  const id = ids[Math.min(Math.max(stop, 0), ids.length - 1)]!
+  return id.startsWith('journey') ? 'journey' : (id as SectionId)
+}
+
 export function captionFor(id: SectionId): string {
   return SECTIONS.find((s) => s.id === id)!.caption
 }

@@ -3,12 +3,17 @@ import { useMemo, useRef, type RefObject } from 'react'
 import { MathUtils, Vector3 } from 'three'
 import { framingShift, poseAt, type Pose } from './cameraPath'
 import { useWorld } from './store'
+import { motion, warpAmount } from './warp'
 
 const SCROLL_DAMPING = 3.2
 const FOCUS_DAMPING = 2.6
 const PARALLAX_X = 0.6
 const PARALLAX_Y = 0.35
 const WORLD_UP = new Vector3(0, 1, 0)
+const BASE_FOV = 45
+/** Extra field of view at full warp: the lens stretches as the camera accelerates. */
+const WARP_FOV = 14
+const WARP_DAMPING = 5
 
 interface CameraRigProps {
   progress: RefObject<number>
@@ -27,7 +32,10 @@ export function CameraRig({ progress, keyframes, focusPoses, isReducedMotion }: 
   const eye = useRef(new Vector3(...keyframes[0]!.eye))
   const focus = useRef(new Vector3(...keyframes[0]!.focus))
   const framing = useRef(1)
-  const scratch = useMemo(() => ({ forward: new Vector3(), right: new Vector3(), up: new Vector3(), look: new Vector3() }), [])
+  const scratch = useMemo(
+    () => ({ forward: new Vector3(), right: new Vector3(), up: new Vector3(), look: new Vector3(), lastEye: new Vector3(...keyframes[0]!.eye) }),
+    [keyframes],
+  )
   const setActiveStop = useWorld((s) => s.setActiveStop)
 
   useFrame((state, delta) => {
@@ -41,6 +49,16 @@ export function CameraRig({ progress, keyframes, focusPoses, isReducedMotion }: 
 
     damp3(eye.current, target.eye, lambda, dt)
     damp3(focus.current, target.focus, lambda, dt)
+
+    // Camera speed drives the warp streaks, chromatic aberration and lens stretch.
+    motion.speed = eye.current.distanceTo(scratch.lastEye) / Math.max(dt, 1e-4)
+    scratch.lastEye.copy(eye.current)
+    motion.warp = MathUtils.damp(motion.warp, isReducedMotion ? 0 : warpAmount(motion.speed), WARP_DAMPING, dt)
+    const fov = BASE_FOV + motion.warp * WARP_FOV
+    if ('fov' in camera && Math.abs(camera.fov - fov) > 0.01) {
+      camera.fov = fov
+      camera.updateProjectionMatrix()
+    }
     framing.current = MathUtils.damp(framing.current, target.framing ?? 1, lambda, dt)
 
     const shift = framingShift(state.size.width / state.size.height)

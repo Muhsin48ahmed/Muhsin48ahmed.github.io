@@ -2,15 +2,16 @@ import { useEffect, useRef, useState } from 'react'
 import { useWorld } from '../world/store'
 
 const FOLLOW_EASE = 0.18
-const INTERACTIVE = 'a, button, [role="button"]'
+const INTERACTIVE = 'a, button, [role="button"], input, select, textarea, label'
 
 const hasFinePointer = () => typeof window.matchMedia === 'function' && window.matchMedia('(pointer: fine)').matches
 
-/** Dot + trailing ring that reacts to links and to grabbable 3D objects. Mouse devices only. */
+/** Dot + trailing ring that reacts to links and to 3D objects, with a verb inside the ring. Mouse devices only. */
 export function Cursor() {
   const [isEnabled] = useState(hasFinePointer)
   const [isOverLink, setIsOverLink] = useState(false)
   const worldMode = useWorld((s) => s.cursor)
+  const label = useWorld((s) => s.cursorLabel)
   const dot = useRef<HTMLDivElement>(null)
   const ring = useRef<HTMLDivElement>(null)
 
@@ -47,9 +48,12 @@ export function Cursor() {
   }, [isEnabled])
 
   if (!isEnabled) return null
+  const mode = isOverLink ? 'hover' : worldMode
   return (
     <>
-      <div ref={ring} data-cursor="ring" data-mode={isOverLink ? 'hover' : worldMode} aria-hidden="true" />
+      <div ref={ring} data-cursor="ring" data-mode={mode} aria-hidden="true">
+        <span data-cursor="label">{isOverLink ? '' : (label ?? '')}</span>
+      </div>
       <div ref={dot} data-cursor="dot" aria-hidden="true" />
     </>
   )

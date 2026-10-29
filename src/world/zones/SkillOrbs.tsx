@@ -60,7 +60,7 @@ function Orb({ spec, onGrab }: OrbProps) {
     <RigidBody ref={body} colliders={false} position={start.toArray()} linearDamping={1.4} angularDamping={1} lockRotations>
       <BallCollider args={[spec.radius]} restitution={0.6} />
       <mesh
-        onPointerOver={(e) => !isFromUi(e.nativeEvent) && setCursor('hover')}
+        onPointerOver={(e) => !isFromUi(e.nativeEvent) && setCursor('hover', 'drag')}
         onPointerOut={() => setCursor('default')}
         onPointerDown={(e) => {
           if (isFromUi(e.nativeEvent) || !isLive(body.current)) return
@@ -153,7 +153,7 @@ export function SkillOrbs({ stop, skillGroups }: { stop: number; skillGroups: Sk
             onGrab={(body) => {
               grabbed.current = body
               document.documentElement.classList.add('is-dragging')
-              setCursor('grab')
+              setCursor('grab', 'throw')
             }}
           />
         ))}

@@ -34,6 +34,11 @@ export interface Milestone {
   stack: string[]
 }
 
+export interface Chart {
+  src: string
+  alt: string
+}
+
 export interface Project {
   title: string
   category: string
@@ -43,6 +48,10 @@ export interface Project {
   stack: string[]
   repoUrl?: string
   demoUrl?: string
+  /** Figures from the project's repo; the first one shows on its holo screen. */
+  charts?: Chart[]
+  /** Interactive demo rendered inside the project's detail panel. */
+  lab?: 'surge'
 }
 
 export interface Award {

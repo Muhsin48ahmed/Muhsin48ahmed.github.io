@@ -12,7 +12,12 @@ with a zone for each section:
 | Contact  | **The portal.** A swirling shader portal (click to email) with the astronaut floating beside it. |
 
 Polish: bloom, film grain, chromatic aberration, vignette, Lenis inertia scrolling, scroll reveals, a custom
-cursor and an intro loader.
+cursor with verbs ("drag", "open"), magnetic buttons, warp streaks and a lens stretch while the camera flies,
+an intro loader, opt-in ambient sound, and a zone rail that shows where you are.
+
+Projects carry real figures from their repos on the holo screens, and the surge capstone has a **Surge lab**:
+pick an hour, rain and a zone and watch the estimated surge likelihood update on the 3D screen. The estimate is
+built from the capstone's published summary statistics (`src/world/surgeModel.ts`), not the trained model.
 
 Stack: React 19, React Three Fiber, drei, @react-three/postprocessing, @react-three/rapier (physics), Tailwind CSS 4,
 Vite, Vitest.
@@ -27,6 +32,19 @@ npm run coverage   # coverage report (80% threshold)
 npm run build      # production build in dist/
 npm run preview    # serve the production build
 ```
+
+## Configuration
+
+Copy `.env.example` to `.env` and fill in:
+
+- `VITE_SITE_URL` — the deployed origin, used for link-preview (Open Graph) tags. The preview card is
+  `public/og.jpg`, regenerated from `scripts/og-card.svg` with `./scripts/build-og.sh`.
+- `VITE_FORMSPREE_ID` — a [Formspree](https://formspree.io) form ID for the contact form. Leave it empty and the
+  form opens the visitor's email app with the message filled in.
+
+Quality scales itself: the site starts on a tier chosen from the device (`src/world/quality.ts`), then steps
+down or up from the measured frame rate. The low tier drops post-processing and swaps the physics orbs for a
+lighter floating version.
 
 ## Make it yours
 

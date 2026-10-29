@@ -34,3 +34,19 @@ describe('world store', () => {
     expect(useWorld.getState()).toBe(before)
   })
 })
+
+describe('world store extras', () => {
+  test('stores a cursor label alongside the mode and clears it by default', () => {
+    useWorld.getState().setCursor('hover', 'open')
+    expect(useWorld.getState()).toMatchObject({ cursor: 'hover', cursorLabel: 'open' })
+    useWorld.getState().setCursor('default')
+    expect(useWorld.getState().cursorLabel).toBeNull()
+  })
+
+  test('publishes the surge lab probability', () => {
+    useWorld.getState().setSurgeProbability(0.42)
+    expect(useWorld.getState().surgeProbability).toBe(0.42)
+    useWorld.getState().setSurgeProbability(null)
+    expect(useWorld.getState().surgeProbability).toBeNull()
+  })
+})

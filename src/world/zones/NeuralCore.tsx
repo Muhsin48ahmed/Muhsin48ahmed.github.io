@@ -101,7 +101,7 @@ export function NeuralCore({ stop, isReducedMotion }: { stop: number; isReducedM
           onPointerMove={(e) => {
             if (isFromUi(e.nativeEvent)) return
             hovered.current = e.instanceId ?? null
-            setCursor('hover')
+            setCursor('hover', 'pulse')
           }}
           onPointerOut={() => {
             hovered.current = null

@@ -44,3 +44,19 @@ describe('sections', () => {
     expect(journeyStopId(2)).toBe('journey-2')
   })
 })
+
+describe('project charts', () => {
+  test('every chart image ships in public/', () => {
+    const charts = portfolio.projects.flatMap((p) => p.charts ?? [])
+    expect(charts.length).toBeGreaterThan(0)
+    charts.forEach((c) => {
+      expect(c.src).toMatch(/^\/charts\/.+\.(png|jpg)$/)
+      expect(c.alt.trim()).not.toBe('')
+      expect(existsSync(resolve(__dirname, '../../public', c.src.slice(1)))).toBe(true)
+    })
+  })
+
+  test('exactly one project hosts the surge lab', () => {
+    expect(portfolio.projects.filter((p) => p.lab === 'surge')).toHaveLength(1)
+  })
+})

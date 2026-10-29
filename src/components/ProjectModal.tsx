@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { Project } from '../content/types'
 import { useWorld } from '../world/store'
+import { SurgeLab } from './SurgeLab'
 
 function ExternalLink({ href, children }: { href: string; children: string }) {
   return (
@@ -67,6 +68,16 @@ export function ProjectModal({ projects }: { projects: Project[] }) {
           </li>
         ))}
       </ul>
+      {project.charts && project.charts.length > 0 && (
+        <ul className="mt-5 grid grid-cols-2 gap-2">
+          {project.charts.map((chart, i) => (
+            <li key={chart.src} className={i === 0 ? 'col-span-2' : ''}>
+              <img src={chart.src} alt={chart.alt} loading="lazy" className="w-full rounded-xl border border-line bg-white/[0.03]" />
+            </li>
+          ))}
+        </ul>
+      )}
+      {project.lab === 'surge' && <SurgeLab />}
       <ul className="mt-5 flex flex-wrap gap-1.5">
         {project.stack.map((tech) => (
           <li key={tech} className="chip">

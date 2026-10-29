@@ -59,10 +59,10 @@ export function Hero({ profile, stats }: HeroProps) {
             {profile.tagline}
           </p>
           <div data-reveal style={{ '--reveal-delay': 800 } as React.CSSProperties} className="mt-9 flex flex-wrap gap-3">
-            <a href="#about" className="btn bg-white text-ink hover:bg-neon-cyan">
+            <a href="#about" data-magnetic className="btn bg-white text-ink hover:bg-neon-cyan">
               Explore the world ↓
             </a>
-            <a href="#contact" className="btn border border-line bg-white/[0.04] text-white backdrop-blur-xl hover:border-neon-violet">
+            <a href="#contact" data-magnetic className="btn border border-line bg-white/[0.04] text-white backdrop-blur-xl hover:border-neon-violet">
               Get in touch
             </a>
           </div>

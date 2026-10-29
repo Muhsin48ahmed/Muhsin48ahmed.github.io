@@ -80,7 +80,7 @@ export function Portal({ stop, email, isReducedMotion }: { stop: number; email: 
           onPointerOver={(e) => {
             if (isFromUi(e.nativeEvent)) return
             setIsHovered(true)
-            setCursor('hover')
+            setCursor('hover', 'email')
           }}
           onPointerOut={() => {
             setIsHovered(false)

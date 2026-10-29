@@ -1,4 +1,5 @@
 import { Suspense, lazy, useMemo } from 'react'
+import { useSoundEvents } from './audio/useSoundEvents'
 import { About } from './components/About'
 import { Contact } from './components/Contact'
 import { Cursor } from './components/Cursor'
@@ -10,9 +11,11 @@ import { Nav } from './components/Nav'
 import { ProjectModal } from './components/ProjectModal'
 import { Projects } from './components/Projects'
 import { StaticBackdrop } from './components/StaticBackdrop'
+import { ZoneRail } from './components/ZoneRail'
 import { portfolio } from './content/portfolio'
 import { cameraStopIds } from './content/sections'
 import { useLenis } from './hooks/useLenis'
+import { useMagnetic } from './hooks/useMagnetic'
 import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion'
 import { useReveal } from './hooks/useReveal'
 import { useStopProgress } from './hooks/useStopProgress'
@@ -27,6 +30,8 @@ export default function App() {
   const isReducedMotion = usePrefersReducedMotion()
   useLenis(!isReducedMotion)
   useReveal()
+  useMagnetic()
+  useSoundEvents()
 
   return (
     <>
@@ -42,7 +47,8 @@ export default function App() {
       />
       <Loader />
       <Cursor />
-      <Nav name={profile.name} />
+      <Nav name={profile.name} journeyCount={journey.length} />
+      <ZoneRail journeyCount={journey.length} />
       <main>
         <Hero profile={profile} stats={stats} />
         <About profile={profile} skillGroups={skillGroups} awards={awards} />

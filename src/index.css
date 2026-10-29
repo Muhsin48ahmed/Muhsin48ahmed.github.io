@@ -108,6 +108,42 @@ body {
   to { transform: scaleX(1); }
 }
 
+/* Magnetic buttons (see useMagnetic): the transform is set from JS, this only eases it. */
+[data-magnetic] {
+  transition:
+    transform 0.3s var(--ease-out-expo),
+    background-color 0.3s,
+    border-color 0.3s;
+  will-change: transform;
+}
+
+/* Surge lab slider */
+.surge-range {
+  appearance: none;
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--color-neon-cyan), var(--color-neon-violet), var(--color-neon-pink));
+  outline: none;
+}
+.surge-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: white;
+  border: 3px solid var(--color-ink);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.3);
+  cursor: pointer;
+}
+.surge-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: white;
+  border: 3px solid var(--color-ink);
+  cursor: pointer;
+}
+
 /* While an orb is held, a drag across the text column shouldn't select it. */
 .is-dragging {
   user-select: none;
@@ -145,6 +181,23 @@ body {
     background-color 0.35s,
     border-color 0.35s;
 }
+[data-cursor="label"] {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+[data-cursor="ring"][data-mode="grab"] [data-cursor="label"],
+[data-cursor="ring"][data-mode="hover"] [data-cursor="label"] {
+  opacity: 1;
+}
 [data-cursor="ring"][data-mode="hover"] {
   width: 64px;
   height: 64px;
@@ -172,5 +225,9 @@ body {
   }
   .scroll-cue {
     animation: none;
+  }
+  [data-magnetic] {
+    transition: none;
+    transform: none !important;
   }
 }

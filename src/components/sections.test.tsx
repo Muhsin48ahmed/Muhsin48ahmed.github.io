@@ -136,7 +136,7 @@ describe('Contact', () => {
 
 describe('Nav', () => {
   test('links to every section after the hero', () => {
-    render(<Nav name={portfolio.profile.name} />)
+    render(<Nav name={portfolio.profile.name} journeyCount={portfolio.journey.length} />)
     SECTIONS.slice(1).forEach((s) =>
       expect(screen.getByRole('link', { name: s.label })).toHaveAttribute('href', `#${s.id}`),
     )
