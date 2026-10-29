@@ -73,5 +73,8 @@ lighter floating version.
 
 ## Deploy
 
-`npm run build` produces a static `dist/` folder. You can host it on Vercel, Netlify, Cloudflare Pages or
-GitHub Pages without any configuration.
+Every push to `main` runs the tests and deploys to GitHub Pages through `.github/workflows/deploy.yml`
+(live at https://muhsin48ahmed.github.io). The workflow sets `VITE_SITE_URL`; add a repository secret named
+`FORMSPREE_ID` to enable the contact form there.
+
+`npm run build` also produces a static `dist/` folder that Vercel, Netlify or Cloudflare Pages can host.
