@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #05060a;
+  --color-panel: rgb(12 14 24 / 0.55);
+  --color-line: rgb(148 163 184 / 0.14);
+  --color-neon-cyan: #22d3ee;
+  --color-neon-violet: #a78bfa;
+  --color-neon-pink: #f472b6;
+  --color-neon-lime: #a3e635;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@utility panel {
+  @apply rounded-2xl border border-line bg-panel backdrop-blur-md;
+}
+
+@utility chip {
+  @apply rounded-full border border-line bg-white/5 px-3 py-1 font-mono text-xs text-slate-300;
+}
+
+@utility btn {
+  @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan;
+}
+
+html {
+  background: var(--color-ink);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  /* No background here: html paints it, and a body background would cover the -z-10 canvas. */
+  @apply font-sans text-slate-300 antialiased;
+}
+
+::selection {
+  background: rgb(34 211 238 / 0.3);
+}
