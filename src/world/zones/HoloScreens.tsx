@@ -3,6 +3,7 @@ import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import { Suspense, useMemo, useRef } from 'react'
 import { AdditiveBlending, Color, MathUtils, ShaderMaterial, SRGBColorSpace, type Group, type Mesh } from 'three'
 import type { Chart, Project } from '../../content/types'
+import { useEventually } from '../../hooks/useEventually'
 import { isFromUi } from '../helpers'
 import { PROJECT_VIEWPOINT, SCREEN_WIDTH, type ScreenPlacement } from '../layout'
 import { useWorld } from '../store'
@@ -92,9 +93,11 @@ interface ScreenProps {
   project: Project
   index: number
   placement: ScreenPlacement
+  /** Chart textures load only once the camera approaches the projects zone. */
+  shouldLoadCharts: boolean
 }
 
-function Screen({ project, index, placement }: ScreenProps) {
+function Screen({ project, index, placement, shouldLoadCharts }: ScreenProps) {
   const tilt = useRef<Group>(null)
   const pointerUv = useRef<{ x: number; y: number } | null>(null)
   const scan = useMemo(() => new ShaderMaterial({ ...scanlineShader, uniforms: { ...scanlineShader.uniforms, uTime: { value: 0 }, uHot: { value: 0 } }, transparent: true, depthWrite: false, blending: AdditiveBlending }), [])
@@ -147,7 +150,7 @@ function Screen({ project, index, placement }: ScreenProps) {
             <meshPhysicalMaterial color="#081022" transparent opacity={isDimmed ? 0.35 : 0.82} roughness={0.2} metalness={0.4} />
             <Edges color={new Color(accent).multiplyScalar(isHot ? GLOW : 1.2)} />
           </RoundedBox>
-          {project.charts?.[0] && !isLabOpen && (
+          {shouldLoadCharts && project.charts?.[0] && !isLabOpen && (
             <Suspense fallback={null}>
               <ChartPlane chart={project.charts[0]} />
             </Suspense>
@@ -199,10 +202,11 @@ function Screen({ project, index, placement }: ScreenProps) {
 /** Projects zone: floating holographic screens on an arc. Hover to tilt, click to fly in. */
 export function HoloScreens({ stop, projects, placements }: { stop: number; projects: Project[]; placements: ScreenPlacement[] }) {
   const isActive = useZoneActive([stop])
+  const shouldLoadCharts = useEventually(isActive)
   return (
     <group visible={isActive}>
       {projects.map((project, i) => (
-        <Screen key={project.title} project={project} index={i} placement={placements[i]!} />
+        <Screen key={project.title} project={project} index={i} placement={placements[i]!} shouldLoadCharts={shouldLoadCharts} />
       ))}
       <Grid
         position={[PROJECT_VIEWPOINT[0], PROJECT_VIEWPOINT[1] - 2.4, PROJECT_VIEWPOINT[2] - 6]}

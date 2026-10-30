@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useWorld } from '../world/store'
 
-/** Never hold the page hostage: reveal it even if the 3D world fails to report in. */
-const FAILSAFE_MS = 12000
+/** Show the page after this long even if the 3D world is still loading; it fades in behind the text. */
+const MAX_WAIT_MS = 3500
 const FADE_MS = 900
 const TICK_MS = 120
 const CREEP_TARGET = 90
@@ -14,7 +14,7 @@ export function Loader() {
   const [isGone, setIsGone] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(markLoaded, FAILSAFE_MS)
+    const timer = setTimeout(markLoaded, MAX_WAIT_MS)
     return () => clearTimeout(timer)
   }, [markLoaded])
 
@@ -47,8 +47,14 @@ export function Loader() {
         <div className="mt-6 h-px w-full bg-white/10">
           <div className="h-full bg-gradient-to-r from-neon-cyan to-neon-pink transition-[width] duration-300" style={{ width: `${progress}%` }} />
         </div>
-        <p className="mt-4 font-mono text-[10px] tracking-[0.3em] text-slate-500 uppercase">initialising neural core</p>
+        <p className="mt-4 font-mono text-[10px] tracking-[0.3em] text-dim uppercase">initialising neural core</p>
       </div>
+      <a
+        href="./?view=classic"
+        className="absolute bottom-10 font-mono text-[11px] tracking-[0.15em] text-dim uppercase underline-offset-4 hover:text-white hover:underline"
+      >
+        Skip to classic view →
+      </a>
     </div>
   )
 }

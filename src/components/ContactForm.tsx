@@ -65,7 +65,7 @@ export function ContactForm({ to, formId }: ContactFormProps) {
     </div>
   )
   const inputClass =
-    'w-full rounded-xl border border-line bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-neon-cyan focus:outline-none'
+    'w-full rounded-xl border border-line bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-dim focus:border-neon-cyan focus:outline-none'
 
   return (
     <form onSubmit={onSubmit} noValidate className="panel space-y-4 p-6">
@@ -91,7 +91,7 @@ export function ContactForm({ to, formId }: ContactFormProps) {
         <button type="submit" data-magnetic disabled={status === 'sending'} className="btn bg-white text-ink hover:bg-neon-cyan disabled:opacity-60">
           {status === 'sending' ? 'Sending…' : formId ? 'Send message' : 'Send via email app'}
         </button>
-        {!formId && <span className="font-mono text-[11px] text-slate-500">opens your email app with the message filled in</span>}
+        {!formId && <span className="font-mono text-[11px] text-dim">opens your email app with the message filled in</span>}
       </div>
     </form>
   )

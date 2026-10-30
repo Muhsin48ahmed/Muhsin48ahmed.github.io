@@ -1,4 +1,5 @@
 import type { Profile } from '../content/types'
+import { getViewMode } from '../content/viewMode'
 import { ContactForm } from './ContactForm'
 import { SectionHeader } from './SectionHeader'
 
@@ -6,13 +7,13 @@ const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID ?? ''
 
 export function Contact({ profile }: { profile: Profile }) {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative flex min-h-[100svh] flex-col justify-center px-5 pt-28 pb-10 sm:px-10">
+    <section id="contact" aria-labelledby="contact-title" className="relative flex min-h-[100svh] flex-col justify-center px-5 pt-28 pb-10 classic:min-h-0 classic:pt-20 sm:px-10">
       <div className="mx-auto w-full max-w-7xl">
         <div className="max-w-2xl">
           <SectionHeader id="contact" title="Let’s build something." />
           <p data-reveal className="max-w-lg text-lg leading-relaxed text-slate-400">
-            Open to full-stack, data science and ML engineering roles — and to ambitious projects. Step through the
-            portal, or just send an email.
+            Open to full-stack, data science and ML engineering roles — and to ambitious projects.{' '}
+            {getViewMode() === 'classic' ? 'Send a message below, or email me directly.' : 'Step through the portal, or just send an email.'}
           </p>
           <a
             data-reveal
@@ -50,7 +51,7 @@ export function Contact({ profile }: { profile: Profile }) {
           </div>
         </div>
       </div>
-      <footer className="mx-auto mt-24 flex w-full max-w-7xl justify-between font-mono text-[11px] text-slate-600">
+      <footer className="mx-auto mt-24 flex w-full max-w-7xl justify-between font-mono text-[11px] text-dim">
         <span>
           © {new Date().getFullYear()} {profile.name}
         </span>

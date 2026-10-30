@@ -104,9 +104,9 @@ export const portfolio: Portfolio = {
       repoUrl: 'https://github.com/Muhsin48ahmed/nairobi-surge-analysis',
       demoUrl: 'https://nairobi-surge-analysis-czq7b3kpgxgdttuq4csvud.streamlit.app/',
       charts: [
-        { src: '/charts/surge-choropleth.png', alt: 'Choropleth of Nairobi neighbourhoods coloured by surge rate' },
-        { src: '/charts/surge-heatmap.png', alt: 'Heatmap of mean surge multiplier by day of week and hour' },
-        { src: '/charts/surge-roc.png', alt: 'ROC curve of the calibrated XGBoost classifier' },
+        { src: '/charts/surge-choropleth.png', alt: 'Choropleth of Nairobi neighbourhoods coloured by surge rate', width: 1200, height: 600 },
+        { src: '/charts/surge-heatmap.png', alt: 'Heatmap of mean surge multiplier by day of week and hour', width: 1200, height: 400 },
+        { src: '/charts/surge-roc.png', alt: 'ROC curve of the calibrated XGBoost classifier', width: 1080, height: 900 },
       ],
       lab: 'surge',
     },
@@ -135,8 +135,8 @@ export const portfolio: Portfolio = {
       stack: ['Python', 'scikit-learn', 'XGBoost', 'SMOTE'],
       repoUrl: 'https://github.com/Muhsin48ahmed/PREDICTION-OF-CUSTOMER-CHURN',
       charts: [
-        { src: '/charts/churn-roc.png', alt: 'ROC curves of the churn models on train and test sets' },
-        { src: '/charts/churn-confusion.png', alt: 'Confusion matrix of the tuned XGBoost churn model on the test set' },
+        { src: '/charts/churn-roc.png', alt: 'ROC curves of the churn models on train and test sets', width: 442, height: 289 },
+        { src: '/charts/churn-confusion.png', alt: 'Confusion matrix of the tuned XGBoost churn model on the test set', width: 322, height: 286 },
       ],
     },
     {
@@ -148,7 +148,7 @@ export const portfolio: Portfolio = {
       highlights: ['Evaluated with RMSE and MAE; tackled cold-start and data sparsity.'],
       stack: ['Python', 'Surprise', 'pandas'],
       repoUrl: 'https://github.com/Muhsin48ahmed/Recommendation-system-project',
-      charts: [{ src: '/charts/recommender-approach.png', alt: 'Diagram comparing content-based and collaborative filtering' }],
+      charts: [{ src: '/charts/recommender-approach.png', alt: 'Diagram comparing content-based and collaborative filtering', width: 1200, height: 577 }],
     },
   ],
   awards: [

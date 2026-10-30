@@ -1,6 +1,8 @@
 import { SECTIONS, sectionForStop } from '../content/sections'
+import { getViewMode } from '../content/viewMode'
 import { useWorld } from '../world/store'
 import { SoundToggle } from './SoundToggle'
+import { ViewSwitch } from './ViewSwitch'
 
 const initials = (name: string) =>
   name
@@ -19,10 +21,10 @@ export function Nav({ name, journeyCount }: { name: string; journeyCount: number
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-10 sm:py-4">
         <a
           href="#hero"
-          aria-label={`${name} — back to top`}
           className="grid size-9 shrink-0 place-items-center rounded-xl border border-line bg-white/[0.04] font-display text-sm font-bold text-white backdrop-blur-xl sm:size-10"
         >
           {initials(name)}
+          <span className="sr-only"> — {name}, back to top</span>
         </a>
         <ul className="flex min-w-0 items-center overflow-x-auto rounded-full border border-line bg-white/[0.04] p-1 text-[11px] backdrop-blur-xl [scrollbar-width:none] sm:text-sm">
           {SECTIONS.slice(1).map((section) => {
@@ -42,7 +44,11 @@ export function Nav({ name, journeyCount }: { name: string; journeyCount: number
             )
           })}
         </ul>
-        <SoundToggle />
+        {getViewMode() === 'classic' ? (
+          <ViewSwitch className="shrink-0 rounded-xl border border-line bg-white/[0.04] px-3 py-2 font-mono text-[11px] whitespace-nowrap text-white backdrop-blur-xl transition hover:border-neon-cyan sm:text-xs" />
+        ) : (
+          <SoundToggle />
+        )}
       </nav>
     </header>
   )

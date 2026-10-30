@@ -8,7 +8,8 @@ import type { Vec3 } from './network'
 const MODEL_URL = '/models/astronaut.glb'
 const FADE = 0.4
 
-export type AstronautAction = 'Wave' | 'Idle' | 'Idle_Neutral' | 'Interact'
+/** Only these clips ship in the model; see scripts/optimize-astronaut.mjs. */
+export type AstronautAction = 'Wave' | 'Idle' | 'Idle_Neutral'
 
 interface AstronautProps {
   position: Vec3

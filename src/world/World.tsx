@@ -3,6 +3,7 @@ import { Canvas, useThree } from '@react-three/fiber'
 import { Suspense, lazy, useEffect, useMemo, type RefObject } from 'react'
 import { StaticBackdrop } from '../components/StaticBackdrop'
 import type { Portfolio } from '../content/types'
+import { useEventually } from '../hooks/useEventually'
 import { Astronaut } from './Astronaut'
 import { CameraRig } from './CameraRig'
 import { DataDust } from './DataDust'
@@ -21,6 +22,9 @@ import { Portal } from './zones/Portal'
 
 // Physics (Rapier WASM) is the heaviest dependency and only the About zone needs it.
 const SkillOrbs = lazy(() => import('./zones/SkillOrbs').then((m) => ({ default: m.SkillOrbs })))
+
+/** Load the physics engine this long after the page is shown, unless the visitor reaches About first. */
+const PHYSICS_IDLE_MS = 2500
 
 const MOBILE_QUERY = '(max-width: 767px)'
 const FOG_NEAR = 14
@@ -57,6 +61,9 @@ export default function World({ progress, portfolio, isReducedMotion }: WorldPro
   useEffect(() => startQuality(initialTier(readDeviceHints())), [startQuality])
   const { journey, projects, skillGroups, profile } = portfolio
   const stops = useMemo(() => zoneStops(journey.length), [journey.length])
+  const isLoaded = useWorld((s) => s.isLoaded)
+  const isNearAbout = useWorld((s) => s.activeStop >= stops.about)
+  const canLoadPhysics = useEventually(isNearAbout, isLoaded ? PHYSICS_IDLE_MS : undefined)
   const keyframes = useMemo(() => cameraKeyframes(journey.length), [journey.length])
   const placements = useMemo(() => screenPlacements(projects.length), [projects.length])
   const focusPoses = useMemo(() => placements.map(projectFocusPose), [placements])
@@ -101,8 +108,9 @@ export default function World({ progress, portfolio, isReducedMotion }: WorldPro
             isReducedMotion={isReducedMotion}
           />
         </Suspense>
-        <Suspense fallback={null}>
-          {hasPhysics ? (
+        {/* Floating orbs stand in until the physics engine loads; both start from the same layout. */}
+        <Suspense fallback={<LightOrbs stop={stops.about} skillGroups={skillGroups} />}>
+          {hasPhysics && canLoadPhysics ? (
             <SkillOrbs stop={stops.about} skillGroups={skillGroups} />
           ) : (
             <LightOrbs stop={stops.about} skillGroups={skillGroups} />

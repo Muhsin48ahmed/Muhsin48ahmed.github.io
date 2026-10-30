@@ -22,7 +22,7 @@ export function ZoneRail({ journeyCount }: { journeyCount: number }) {
               >
                 <span
                   className={`font-mono text-[10px] tracking-[0.2em] uppercase transition ${
-                    isActive ? 'text-white' : 'text-slate-600 opacity-0 group-hover:opacity-100'
+                    isActive ? 'text-white' : 'text-dim opacity-0 group-hover:opacity-100'
                   }`}
                 >
                   {String(i + 1).padStart(2, '0')} {section.label}

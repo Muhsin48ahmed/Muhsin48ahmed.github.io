@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { portfolio } from './portfolio'
 import { SECTIONS, captionFor, journeyStopId } from './sections'
@@ -59,6 +59,14 @@ describe('project charts', () => {
   test('the surge capstone links its live Streamlit demo', () => {
     const surge = portfolio.projects.find((p) => p.lab === 'surge')
     expect(surge?.demoUrl).toMatch(/^https:\/\/[a-z0-9-]+\.streamlit\.app\/?$/)
+  })
+
+  test('every chart declares the true pixel size of its PNG (prevents layout shift)', () => {
+    portfolio.projects.flatMap((p) => p.charts ?? []).forEach((chart) => {
+      const png = readFileSync(resolve(__dirname, '../../public', chart.src.slice(1)))
+      // PNG IHDR: width and height are big-endian uint32s at bytes 16 and 20.
+      expect([chart.width, chart.height], chart.src).toEqual([png.readUInt32BE(16), png.readUInt32BE(20)])
+    })
   })
 
   test('exactly one project hosts the surge lab', () => {

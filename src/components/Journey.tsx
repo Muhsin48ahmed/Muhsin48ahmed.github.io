@@ -38,7 +38,7 @@ export function Journey({ items }: { items: Milestone[] }) {
     <section id="journey" aria-labelledby="journey-title" className="relative px-5 sm:px-10">
       <div className="mx-auto w-full max-w-7xl">
         {items.map((milestone, i) => (
-          <div key={`${milestone.org}-${milestone.period}`} id={journeyStopId(i)} className="flex min-h-[100svh] flex-col justify-center py-24">
+          <div key={`${milestone.org}-${milestone.period}`} id={journeyStopId(i)} className="flex min-h-[100svh] flex-col justify-center py-24 classic:min-h-0 classic:py-3 classic:first:pt-20">
             {i === 0 && <SectionHeader id="journey" title="The journey" />}
             <MilestoneCard milestone={milestone} index={i} total={items.length} />
           </div>

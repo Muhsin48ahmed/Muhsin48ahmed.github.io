@@ -33,6 +33,26 @@ npm run build      # production build in dist/
 npm run preview    # serve the production build
 ```
 
+## Two views
+
+- **3D (default):** the scroll-driven world described above.
+- **Classic (`/?view=classic`):** the same content as a fast, normal page with no WebGL. Projects show their
+  full write-ups, charts and the surge lab inline. The loader and hero link to it, and its menu links back.
+  It scores 97–99 for performance and 100 for accessibility, best practices and SEO in Lighthouse.
+
+## Testing
+
+```bash
+npm test           # unit and component tests (Vitest)
+npm run coverage   # with coverage (80% threshold)
+npm run e2e        # end-to-end tests (Playwright) on desktop and mobile, both views
+```
+
+The end-to-end suite builds and serves the site, then covers loading, navigation, opening a project, the
+surge lab, the contact form, the résumé download and horizontal overflow. It also runs an axe accessibility
+audit (WCAG 2.1 AA) on both views. Locally it uses your installed Chrome; CI installs Chromium and must pass
+before every deploy.
+
 ## Configuration
 
 Copy `.env.example` to `.env` and fill in:
@@ -41,6 +61,9 @@ Copy `.env.example` to `.env` and fill in:
   `public/og.jpg`, regenerated from `scripts/og-card.svg` with `./scripts/build-og.sh`.
 - `VITE_FORMSPREE_ID` — a [Formspree](https://formspree.io) form ID for the contact form. Leave it empty and the
   form opens the visitor's email app with the message filled in.
+
+The astronaut is optimised from `scripts/assets/astronaut.source.glb` by `node scripts/optimize-astronaut.mjs`
+(keeps only the animations the site plays and meshopt-compresses it: 1.9 MB → 0.56 MB).
 
 Quality scales itself: the site starts on a tier chosen from the device (`src/world/quality.ts`), then steps
 down or up from the measured frame rate. The low tier drops post-processing and swaps the physics orbs for a

@@ -134,6 +134,13 @@ describe('Contact', () => {
   })
 })
 
+describe('Nav logo', () => {
+  test('includes its visible initials in its accessible name', () => {
+    render(<Nav name="Muhsin Ahmed" journeyCount={1} />)
+    expect(screen.getByRole('link', { name: /^MA\b.*back to top/i })).toHaveAttribute('href', '#hero')
+  })
+})
+
 describe('Nav', () => {
   test('links to every section after the hero', () => {
     render(<Nav name={portfolio.profile.name} journeyCount={portfolio.journey.length} />)

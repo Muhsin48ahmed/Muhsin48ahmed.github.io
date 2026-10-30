@@ -1,4 +1,5 @@
 import type { Profile, Stat } from '../content/types'
+import { getViewMode } from '../content/viewMode'
 import { useWorld } from '../world/store'
 
 interface HeroProps {
@@ -29,12 +30,13 @@ function AnimatedName({ name }: { name: string }) {
 
 export function Hero({ profile, stats }: HeroProps) {
   const isLoaded = useWorld((s) => s.isLoaded)
+  const isClassic = getViewMode() === 'classic'
 
   return (
     <section
       id="hero"
       aria-label="Introduction"
-      className={`relative flex min-h-[100svh] items-center px-5 pt-24 pb-16 sm:px-10 ${isLoaded ? 'is-intro-done' : ''}`}
+      className={`relative flex min-h-[100svh] items-center px-5 pt-24 pb-16 classic:min-h-0 classic:pt-32 sm:px-10 ${isLoaded ? 'is-intro-done' : ''}`}
     >
       <div className="mx-auto w-full max-w-7xl">
         <div className="max-w-3xl">
@@ -60,7 +62,7 @@ export function Hero({ profile, stats }: HeroProps) {
           </p>
           <div data-reveal style={{ '--reveal-delay': 800 } as React.CSSProperties} className="mt-9 flex flex-wrap gap-3">
             <a href="#about" data-magnetic className="btn bg-white text-ink hover:bg-neon-cyan">
-              Explore the world ↓
+              {isClassic ? 'About me ↓' : 'Explore the world ↓'}
             </a>
             <a href="#contact" data-magnetic className="btn border border-line bg-white/[0.04] text-white backdrop-blur-xl hover:border-neon-violet">
               Get in touch
@@ -73,17 +75,27 @@ export function Hero({ profile, stats }: HeroProps) {
           >
             {stats.map((stat) => (
               <div key={stat.label} className="flex flex-col-reverse gap-1 border-l border-line pl-4">
-                <dt className="text-xs leading-snug text-slate-500">{stat.label}</dt>
+                <dt className="text-xs leading-snug text-dim">{stat.label}</dt>
                 <dd className="font-display text-3xl font-bold text-white sm:text-4xl">{stat.value}</dd>
               </div>
             ))}
           </dl>
+          {!isClassic && (
+            <p data-reveal style={{ '--reveal-delay': 1100 } as React.CSSProperties} className="mt-8 font-mono text-xs text-dim">
+              Prefer a lighter page?{' '}
+              <a href="./?view=classic" className="text-slate-300 underline underline-offset-4 hover:text-white">
+                Classic view
+              </a>
+            </p>
+          )}
         </div>
       </div>
-      <div aria-hidden="true" className="absolute right-10 bottom-8 hidden flex-col items-center gap-3 lg:flex">
-        <span className="font-mono text-[10px] tracking-[0.3em] text-slate-500 uppercase">scroll to fly</span>
-        <span className="scroll-cue h-12 w-px bg-gradient-to-b from-neon-cyan to-transparent" />
-      </div>
+      {!isClassic && (
+        <div aria-hidden="true" className="absolute right-10 bottom-8 hidden flex-col items-center gap-3 lg:flex">
+          <span className="font-mono text-[10px] tracking-[0.3em] text-dim uppercase">scroll to fly</span>
+          <span className="scroll-cue h-12 w-px bg-gradient-to-b from-neon-cyan to-transparent" />
+        </div>
+      )}
     </section>
   )
 }

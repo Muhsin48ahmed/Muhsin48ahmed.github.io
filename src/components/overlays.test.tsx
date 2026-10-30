@@ -21,12 +21,12 @@ describe('Loader', () => {
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
   })
 
-  test('gives up waiting after a timeout so the page is never blocked', () => {
+  test('shows the page within 4 seconds even while the 3D world is still loading', () => {
     vi.useFakeTimers()
     render(<Loader />)
-    act(() => vi.advanceTimersByTime(20000))
+    act(() => vi.advanceTimersByTime(4000))
     expect(useWorld.getState().isLoaded).toBe(true)
-    act(() => vi.advanceTimersByTime(2000))
+    act(() => vi.advanceTimersByTime(1000))
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
   })
 })

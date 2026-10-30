@@ -37,6 +37,9 @@ export interface Milestone {
 export interface Chart {
   src: string
   alt: string
+  /** Intrinsic pixel size, so the browser reserves space before the image loads. */
+  width: number
+  height: number
 }
 
 export interface Project {

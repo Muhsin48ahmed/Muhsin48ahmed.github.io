@@ -29,3 +29,16 @@ describe('App', () => {
     expect(await screen.findByTestId('world')).toBeInTheDocument()
   })
 })
+
+describe('App in classic view', () => {
+  beforeEach(() => window.history.replaceState(null, '', '/?view=classic'))
+  afterEach(() => window.history.replaceState(null, '', '/'))
+
+  test('does not mount the 3D world or the loader', async () => {
+    render(<App />)
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(screen.queryByTestId('world')).not.toBeInTheDocument()
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+    expect(document.documentElement.dataset.view).toBe('classic')
+  })
+})

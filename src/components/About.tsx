@@ -11,7 +11,7 @@ interface AboutProps {
 
 export function About({ profile, skillGroups, awards }: AboutProps) {
   return (
-    <section id="about" aria-labelledby="about-title" className="relative flex min-h-[100svh] items-center px-5 py-28 sm:px-10">
+    <section id="about" aria-labelledby="about-title" className="relative flex min-h-[100svh] items-center px-5 py-28 classic:min-h-0 classic:py-20 sm:px-10">
       <div className="mx-auto w-full max-w-7xl">
         <div className="max-w-xl">
           <SectionHeader id="about" title="About me" />
@@ -42,18 +42,18 @@ export function About({ profile, skillGroups, awards }: AboutProps) {
           <ul data-reveal className="mt-6 space-y-3">
             {awards.map((award) => (
               <li key={award.title} className="flex gap-4 text-sm">
-                <span className="w-16 shrink-0 font-mono text-xs leading-5 text-slate-500">{award.date}</span>
+                <span className="w-16 shrink-0 font-mono text-xs leading-5 text-dim">{award.date}</span>
                 <span>
                   <span className="block text-white">{award.title}</span>
-                  <span className="text-slate-500">{award.issuer}</span>
+                  <span className="text-dim">{award.issuer}</span>
                 </span>
               </li>
             ))}
           </ul>
-          <p data-reveal className="mt-6 font-mono text-xs text-slate-500">
+          <p data-reveal className="mt-6 font-mono text-xs text-dim">
             Speaks <span className="text-slate-300">{profile.languages.join(' · ')}</span>
           </p>
-          <p data-reveal className="chip mt-8 hidden w-fit lg:block">
+          <p data-reveal className="chip mt-8 hidden w-fit classic:hidden lg:block">
             ✦ grab the orbs on the right and throw them around
           </p>
         </div>

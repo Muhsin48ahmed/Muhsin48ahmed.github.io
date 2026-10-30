@@ -29,7 +29,7 @@ export function SurgeLab() {
         <ul className="space-y-0.5 text-right font-mono text-[11px] text-slate-400">
           {drivers.map((d) => (
             <li key={d.label}>
-              {d.label} <span className={d.lift > 1 ? 'text-neon-pink' : d.lift < 1 ? 'text-neon-cyan' : 'text-slate-600'}>×{d.lift.toFixed(2)}</span>
+              {d.label} <span className={d.lift > 1 ? 'text-neon-pink' : d.lift < 1 ? 'text-neon-cyan' : 'text-dim'}>×{d.lift.toFixed(2)}</span>
             </li>
           ))}
         </ul>
@@ -74,7 +74,7 @@ export function SurgeLab() {
           </select>
         </label>
       </div>
-      <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
+      <p className="mt-4 text-[11px] leading-relaxed text-dim">
         Estimated from the capstone’s published summary statistics over 3.7M trips (peak windows, rain, pickup clusters), not the
         trained XGBoost model.
       </p>
