@@ -13,7 +13,13 @@ const CITY_PATH_END: Vec3 = [9, -5, -98]
 const MIN_TOWER = 3
 const MAX_TOWER = 8
 export const SCREEN_WIDTH = 4.2
+export const SCREEN_HEIGHT = 2.6
 const SCREEN_GAP = 0.7
+/** More screens than this are split into two stacked rows so the arc stays inside the camera's view. */
+const MAX_PER_ROW = 5
+const ROW_GAP = 0.7
+/** Two rows sit higher so the project picker along the bottom of the screen doesn't cover the lower row. */
+const TWO_ROW_LIFT = 1.2
 const SCREEN_RADIUS = 12
 /** Angle between neighbouring screens, so the arc grows with the project count instead of overlapping. */
 const SCREEN_STEP = (SCREEN_WIDTH + SCREEN_GAP) / SCREEN_RADIUS
@@ -44,14 +50,19 @@ export function milestoneHeight(index: number, count: number): number {
 
 /** Project screens on an arc around the viewpoint, each turned to face it. */
 export function screenPlacements(count: number): ScreenPlacement[] {
-  return Array.from({ length: count }, (_, i) => {
-    const angle = (i - (count - 1) / 2) * SCREEN_STEP
-    const [vx, vy, vz] = PROJECT_VIEWPOINT
-    return {
-      position: [vx + SCREEN_RADIUS * Math.sin(angle), vy, vz - SCREEN_RADIUS * Math.cos(angle)],
-      rotationY: -angle,
-      normal: [-Math.sin(angle), 0, Math.cos(angle)],
-    }
+  const rows = count > MAX_PER_ROW ? [Math.ceil(count / 2), Math.floor(count / 2)] : [count]
+  const rowOffset = (SCREEN_HEIGHT + ROW_GAP) / 2
+  const [vx, vy, vz] = PROJECT_VIEWPOINT
+  return rows.flatMap((inRow, row) => {
+    const y = rows.length === 1 ? vy : vy + TWO_ROW_LIFT + (row === 0 ? rowOffset : -rowOffset)
+    return Array.from({ length: inRow }, (_, i): ScreenPlacement => {
+      const angle = (i - (inRow - 1) / 2) * SCREEN_STEP
+      return {
+        position: [vx + SCREEN_RADIUS * Math.sin(angle), y, vz - SCREEN_RADIUS * Math.cos(angle)],
+        rotationY: -angle,
+        normal: [-Math.sin(angle), 0, Math.cos(angle)],
+      }
+    })
   })
 }
 

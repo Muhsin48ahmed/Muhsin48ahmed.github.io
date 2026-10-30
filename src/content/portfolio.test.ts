@@ -45,6 +45,18 @@ describe('sections', () => {
   })
 })
 
+/** Pixel size from a PNG (IHDR) or baseline/progressive JPEG (SOF0/SOF2) header. */
+function imageSize(file: Buffer): [number, number] {
+  if (file.readUInt32BE(0) === 0x89504e47) return [file.readUInt32BE(16), file.readUInt32BE(20)]
+  let offset = 2
+  while (offset < file.length) {
+    const marker = file.readUInt16BE(offset)
+    if (marker === 0xffc0 || marker === 0xffc2) return [file.readUInt16BE(offset + 7), file.readUInt16BE(offset + 5)]
+    offset += 2 + file.readUInt16BE(offset + 2)
+  }
+  throw new Error('unsupported image format')
+}
+
 describe('project charts', () => {
   test('every chart image ships in public/', () => {
     const charts = portfolio.projects.flatMap((p) => p.charts ?? [])
@@ -61,11 +73,10 @@ describe('project charts', () => {
     expect(surge?.demoUrl).toMatch(/^https:\/\/[a-z0-9-]+\.streamlit\.app\/?$/)
   })
 
-  test('every chart declares the true pixel size of its PNG (prevents layout shift)', () => {
+  test('every chart declares the true pixel size of its image (prevents layout shift)', () => {
     portfolio.projects.flatMap((p) => p.charts ?? []).forEach((chart) => {
-      const png = readFileSync(resolve(__dirname, '../../public', chart.src.slice(1)))
-      // PNG IHDR: width and height are big-endian uint32s at bytes 16 and 20.
-      expect([chart.width, chart.height], chart.src).toEqual([png.readUInt32BE(16), png.readUInt32BE(20)])
+      const file = readFileSync(resolve(__dirname, '../../public', chart.src.slice(1)))
+      expect([chart.width, chart.height], chart.src).toEqual(imageSize(file))
     })
   })
 

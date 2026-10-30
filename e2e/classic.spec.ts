@@ -1,3 +1,4 @@
+import { portfolio } from '../src/content/portfolio'
 import { expect, test } from './fixtures'
 
 test.describe('classic view', () => {
@@ -20,7 +21,7 @@ test.describe('classic view', () => {
     const before = await status.textContent()
     await surge.getByRole('combobox', { name: /zone/i }).selectOption('cbd')
     await expect(status).not.toHaveText(before ?? '')
-    await expect(page.locator('#projects').getByRole('article')).toHaveCount(5)
+    await expect(page.locator('#projects').getByRole('article')).toHaveCount(portfolio.projects.length)
   })
 
   test('highlights the section being read and switches back to 3D', async ({ page }) => {

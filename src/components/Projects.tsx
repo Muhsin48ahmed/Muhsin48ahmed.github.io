@@ -52,7 +52,7 @@ function ProjectScreens({ items }: { items: Project[] }) {
         <p data-reveal className="mb-4 font-mono text-xs text-dim">
           Click a screen — or pick a project:
         </p>
-        <ul data-reveal className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <ul data-reveal className="flex flex-wrap gap-2">
           {items.map((project, i) => (
             <li key={project.title}>
               <button
@@ -62,11 +62,9 @@ function ProjectScreens({ items }: { items: Project[] }) {
                 onPointerLeave={() => hoverProject(null)}
                 onFocus={() => hoverProject(i)}
                 onBlur={() => hoverProject(null)}
-                className="panel group w-full p-4 text-left transition hover:-translate-y-1 hover:border-neon-cyan/50 focus-visible:outline-2 focus-visible:outline-neon-cyan"
+                className="rounded-full border border-line bg-white/[0.04] px-4 py-2 text-sm text-white backdrop-blur-xl transition hover:border-neon-cyan/60 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-neon-cyan"
               >
-                <span className="block font-mono text-[11px] text-neon-lime">{project.impact}</span>
-                <span className="mt-1 block font-display text-lg font-bold text-white">{project.title}</span>
-                <span className="mt-1 block text-xs text-dim">{project.category}</span>
+                {project.title}
               </button>
             </li>
           ))}

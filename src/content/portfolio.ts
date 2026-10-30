@@ -111,6 +111,63 @@ export const portfolio: Portfolio = {
       lab: 'surge',
     },
     {
+      title: 'Aero Runner Sneaker Configurator',
+      category: '3D e-commerce · React Three Fiber',
+      summary:
+        'A 3D product configurator: shoppers rotate the sneaker, recolour each of its 8 parts, pick material finishes, watch the price update, add the exact build to a cart and place a true-to-size copy on their floor in AR.',
+      impact: '8 parts · 5 finishes · AR try-on',
+      highlights: [
+        'One renderer-agnostic surface spec drives both the 3D scene and the AR viewer, so the shoe in your room is the shoe you designed.',
+        'Photographic look: physically based finishes (sheen, clearcoat, metalness), studio Lightformer lighting, ambient occlusion and e-commerce tone mapping.',
+        'Fast by design: on-demand rendering, a 248 kB Draco model with a self-hosted decoder, and AR code loaded only when asked for.',
+        'Pure, unit-tested domain layer (catalog, pricing in integer cents, cart) — 55 tests.',
+      ],
+      stack: ['React', 'TypeScript', 'React Three Fiber', 'three.js', 'model-viewer', 'Vitest'],
+      repoUrl: 'https://github.com/Muhsin48ahmed/sneaker-configurator',
+      charts: [
+        { src: '/charts/sneaker-sunset.jpg', alt: 'Aero Runner configurator showing the Sunset colorway on a dark studio stage', width: 1200, height: 750 },
+        { src: '/charts/sneaker-midnight.jpg', alt: 'Aero Runner configurator showing the Midnight colorway', width: 1200, height: 750 },
+      ],
+    },
+    {
+      title: 'Ember & Oak Bakery',
+      category: 'Full-stack · 3D scanned menu',
+      summary:
+        'A bakery-café site where pastries are real photogrammetry scans you can turn in your hands, backed by the practical side a small business needs: pickup ordering, table reservations with live availability and a kitchen dashboard.',
+      impact: 'Ordering + reservations · 70 tests',
+      highlights: [
+        'Next.js API routes with Zod validation and server-side pricing; the client only sends item IDs and quantities.',
+        'Timezone-safe slot scheduling and serializable table assignment that keeps big tables for big groups.',
+        'Signed httpOnly admin sessions, same-origin checks, per-IP rate limiting and abuse caps.',
+        'Scan-to-web pipeline: one command optimises a Polycam/Luma capture into a 0.25–0.75 MB model.',
+      ],
+      stack: ['Next.js', 'React', 'TypeScript', 'Prisma', 'Zod', 'React Three Fiber'],
+      repoUrl: 'https://github.com/Muhsin48ahmed/restaurant-3d-menu',
+      charts: [
+        { src: '/charts/ember-menu.jpg', alt: 'Ember & Oak menu page with a photogrammetry scan of a butter croissant', width: 1200, height: 750 },
+        { src: '/charts/ember-scan.jpg', alt: 'Ember & Oak "Scanned, not styled" 3D showcase on the home page', width: 1200, height: 750 },
+      ],
+    },
+    {
+      title: 'STRATA Launch Page',
+      category: '3D web · Scroll storytelling',
+      summary:
+        'A scroll-driven launch page for STRATA, a concept energy drink "built in four layers". The can is modelled in code and splits apart as you scroll to reveal its four strata.',
+      impact: 'Procedural 3D can · live site',
+      highlights: [
+        'Can built entirely in code: lathed shoulder and lid, double seam, split sleeve, pull tab and four glowing core layers.',
+        'Keyframed scroll timeline with desktop and compact tracks; callouts projected from 3D positions.',
+        'Per-flavour labels drawn to canvas textures, with condensation maps and instanced carbonation bubbles.',
+      ],
+      stack: ['three.js', 'JavaScript', 'Canvas', 'Lenis'],
+      repoUrl: 'https://github.com/Muhsin48ahmed/strata-launch',
+      demoUrl: 'https://muhsin48ahmed.github.io/strata-launch/',
+      charts: [
+        { src: '/charts/strata-hero.jpg', alt: 'STRATA launch page hero with the 3D can leaning over the wordmark', width: 1200, height: 750 },
+        { src: '/charts/strata-layers.jpg', alt: 'STRATA can split open to show its four layers with callouts', width: 1200, height: 750 },
+      ],
+    },
+    {
       title: 'Unified Public Health Information System',
       category: 'Health data · Analysis',
       summary:

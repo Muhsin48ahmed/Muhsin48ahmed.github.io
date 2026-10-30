@@ -1,6 +1,7 @@
 import { SECTIONS, cameraStopIds } from '../content/sections'
 import {
   PROJECT_VIEWPOINT,
+  SCREEN_HEIGHT,
   SCREEN_WIDTH,
   cameraKeyframes,
   milestoneHeight,
@@ -49,6 +50,34 @@ describe('screenPlacements', () => {
     const screens = screenPlacements(count)
     screens.slice(1).forEach((screen, i) => {
       expect(distance(screen.position, screens[i]!.position)).toBeGreaterThan(SCREEN_WIDTH)
+    })
+  })
+
+  test('keeps up to five screens on one row', () => {
+    expect(new Set(screenPlacements(5).map((s) => s.position[1])).size).toBe(1)
+  })
+
+  test('splits more than five screens into two rows that do not overlap', () => {
+    const screens = screenPlacements(8)
+    const rows = [...new Set(screens.map((s) => s.position[1]))].sort((a, b) => b - a)
+    expect(rows).toHaveLength(2)
+    expect(rows[0]! - rows[1]!).toBeGreaterThan(SCREEN_HEIGHT)
+    expect(screens.filter((s) => s.position[1] === rows[0])).toHaveLength(4)
+  })
+
+  test('lifts a two-row formation above the viewpoint to leave room for the project picker', () => {
+    const ys = screenPlacements(8).map((s) => s.position[1])
+    const centre = (Math.max(...ys) + Math.min(...ys)) / 2
+    expect(centre).toBeGreaterThan(PROJECT_VIEWPOINT[1])
+  })
+
+  test.each([3, 5, 8])('keeps every screen inside the overview camera frame (%i screens)', (count) => {
+    const overview = cameraKeyframes(1)[cameraStopIds(1).indexOf('projects')]!
+    const halfFovRad = (45 / 2) * (Math.PI / 180) * 1.55 // horizontal half-FOV at a 16:10 aspect, with margin
+    screenPlacements(count).forEach(({ position }) => {
+      const dx = position[0] - overview.eye[0]
+      const dz = overview.eye[2] - position[2]
+      expect(Math.atan2(Math.abs(dx) + SCREEN_WIDTH / 2, dz)).toBeLessThan(halfFovRad)
     })
   })
 
