@@ -21,6 +21,12 @@ describe('Hero', () => {
     portfolio.stats.forEach((s) => expect(screen.getByText(s.label)).toBeInTheDocument())
   })
 
+  test('keeps the final stat values for screen readers while the numbers count up', () => {
+    const { container } = render(<Hero profile={portfolio.profile} stats={portfolio.stats} />)
+    const spoken = [...container.querySelectorAll('dd .sr-only')].map((el) => el.textContent)
+    expect(spoken).toEqual(portfolio.stats.map((s) => s.value))
+  })
+
   test('links into the world and to contact', () => {
     render(<Hero profile={portfolio.profile} stats={portfolio.stats} />)
     expect(screen.getByRole('link', { name: /explore/i })).toHaveAttribute('href', '#about')
@@ -38,6 +44,16 @@ describe('About', () => {
   })
 })
 
+describe('SectionHeader', () => {
+  test('splits the title into words that rise in one after another', () => {
+    render(<About profile={portfolio.profile} skillGroups={portfolio.skillGroups} awards={portfolio.awards} />)
+    const heading = screen.getByRole('heading', { level: 2, name: 'About me' })
+    const words = heading.querySelectorAll<HTMLElement>('.word')
+    expect([...words].map((w) => w.textContent)).toEqual(['About', 'me'])
+    expect([...words].map((w) => w.style.getPropertyValue('--i'))).toEqual(['0', '1'])
+  })
+})
+
 describe('Journey', () => {
   test('renders one camera stop per milestone with its details', () => {
     const { container } = render(<Journey items={portfolio.journey} />)
@@ -48,9 +64,23 @@ describe('Journey', () => {
       expect(within(stop).getByText(m.org)).toBeInTheDocument()
     })
   })
+
+  test('staggers each card\'s highlights and stack', () => {
+    const { container } = render(<Journey items={portfolio.journey} />)
+    const card = container.querySelector(`#${journeyStopId(0)} article`) as HTMLElement
+    const items = [...card.querySelectorAll<HTMLElement>('[data-stagger] > li')]
+    expect(items.length).toBe(portfolio.journey[0]!.highlights.length + portfolio.journey[0]!.stack.length)
+    items.forEach((item) => expect(item.style.getPropertyValue('--i')).not.toBe(''))
+  })
 })
 
 describe('Projects', () => {
+  test('staggers the project picker', () => {
+    render(<Projects items={portfolio.projects} />)
+    const items = screen.getAllByRole('listitem')
+    expect(items.map((li) => li.style.getPropertyValue('--i'))).toEqual(portfolio.projects.map((_, i) => String(i)))
+  })
+
   test('lists every project as a button that focuses its screen', () => {
     render(<Projects items={portfolio.projects} />)
     fireEvent.click(screen.getByRole('button', { name: new RegExp(portfolio.projects[2]!.title) }))

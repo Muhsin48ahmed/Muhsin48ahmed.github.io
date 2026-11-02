@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { SECTIONS, captionFor, type SectionId } from '../content/sections'
 import { getViewMode } from '../content/viewMode'
 
@@ -12,7 +13,16 @@ export function SectionHeader({ id, title }: { id: SectionId; title: string }) {
         </span>
       </p>
       <h2 id={`${id}-title`} className="mt-3 font-display text-4xl font-bold tracking-tight text-white sm:text-6xl">
-        {title}
+        {title.split(' ').map((word, i) => (
+          <Fragment key={i}>
+            {i > 0 && ' '}
+            <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+              <span className="word" style={{ '--i': i } as React.CSSProperties}>
+                {word}
+              </span>
+            </span>
+          </Fragment>
+        ))}
       </h2>
     </header>
   )
