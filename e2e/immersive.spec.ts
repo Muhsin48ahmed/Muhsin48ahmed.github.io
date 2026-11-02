@@ -9,7 +9,8 @@ test.describe('immersive view', () => {
   test('shows the hero with name, role and stats once loaded', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1, name: 'Muhsin Ahmed' })).toBeVisible()
     await expect(page.getByText('Full-Stack Engineer & Data Scientist').first()).toBeVisible()
-    await expect(page.getByText('53k+', { exact: true })).toBeVisible()
+    // The visible number counts up to the stat; a screen-reader copy holds the final value from the start.
+    await expect(page.locator('#hero dd [aria-hidden="true"]').first()).toHaveText('53k+')
   })
 
   test('navigating to a section updates the active menu item', async ({ page, isMobile }) => {
