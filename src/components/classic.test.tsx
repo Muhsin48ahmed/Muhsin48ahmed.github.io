@@ -55,6 +55,12 @@ describe('classic view', () => {
     expect(screen.queryByText(/click a screen/i)).not.toBeInTheDocument()
   })
 
+  test('project cards in the same row reveal one after the other', () => {
+    render(<Projects items={portfolio.projects} />)
+    const delays = portfolio.projects.map((p) => screen.getByRole('article', { name: p.title }).style.getPropertyValue('--reveal-delay'))
+    expect(delays.slice(0, 2)).toEqual(['0', '120'])
+  })
+
   test('the surge lab works inline', () => {
     render(<Projects items={portfolio.projects} />)
     const surge = portfolio.projects.find((p) => p.lab === 'surge')!

@@ -14,17 +14,18 @@ function MilestoneCard({ milestone, index, total }: { milestone: Milestone; inde
       </div>
       <h3 className="mt-4 font-display text-2xl font-bold text-white sm:text-3xl">{milestone.title}</h3>
       <p className="mt-1 text-neon-violet">{milestone.org}</p>
-      <ul className="mt-5 space-y-2 text-sm leading-relaxed text-slate-400">
-        {milestone.highlights.map((highlight) => (
-          <li key={highlight} className="flex gap-3">
+      <ul data-stagger className="mt-5 space-y-2 text-sm leading-relaxed text-slate-400">
+        {milestone.highlights.map((highlight, i) => (
+          <li key={highlight} className="flex gap-3" style={{ '--i': i } as React.CSSProperties}>
             <span aria-hidden="true" className="mt-2 size-1 shrink-0 rounded-full bg-neon-cyan" />
             {highlight}
           </li>
         ))}
       </ul>
-      <ul className="mt-6 flex flex-wrap gap-1.5">
-        {milestone.stack.map((tech) => (
-          <li key={tech} className="chip">
+      <ul data-stagger className="mt-6 flex flex-wrap gap-1.5">
+        {milestone.stack.map((tech, i) => (
+          // Chips follow the highlights, so they count on from where those end.
+          <li key={tech} className="chip" style={{ '--i': milestone.highlights.length + i } as React.CSSProperties}>
             {tech}
           </li>
         ))}

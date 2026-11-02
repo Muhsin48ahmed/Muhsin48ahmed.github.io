@@ -86,6 +86,32 @@ body {
   }
 }
 
+/* Section titles: each word rises out of its own clip once the header reveals (see SectionHeader) */
+.word {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform 0.9s var(--ease-out-expo);
+  transition-delay: calc(var(--i) * 80ms + 120ms);
+}
+[data-visible="true"] .word {
+  transform: none;
+}
+
+/* Lists inside a revealed block settle in one item after another */
+[data-stagger] > * {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.6s var(--ease-out-expo),
+    transform 0.6s var(--ease-out-expo);
+  transition-delay: calc(var(--i, 0) * 50ms + 250ms);
+}
+[data-visible="true"] [data-stagger] > *,
+[data-visible="true"][data-stagger] > * {
+  opacity: 1;
+  transform: none;
+}
+
 .scroll-cue {
   animation: scroll-cue 2.2s ease-in-out infinite;
 }
@@ -230,6 +256,11 @@ body {
   }
   .scroll-cue {
     animation: none;
+  }
+  .word,
+  [data-stagger] > * {
+    transform: none;
+    transition: opacity 0.3s;
   }
   [data-magnetic] {
     transition: none;

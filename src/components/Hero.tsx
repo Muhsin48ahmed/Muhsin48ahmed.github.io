@@ -1,5 +1,6 @@
 import type { Profile, Stat } from '../content/types'
 import { getViewMode } from '../content/viewMode'
+import { useCountUp } from '../hooks/useCountUp'
 import { useWorld } from '../world/store'
 
 interface HeroProps {
@@ -25,6 +26,19 @@ function AnimatedName({ name }: { name: string }) {
         </span>
       ))}
     </h1>
+  )
+}
+
+// Starts once the hero name has mostly risen in.
+const STAT_COUNT_DELAY_MS = 600
+
+function StatValue({ value, isActive }: { value: string; isActive: boolean }) {
+  const shown = useCountUp(value, isActive, { delayMs: STAT_COUNT_DELAY_MS })
+  return (
+    <dd className="font-display text-3xl font-bold text-white tabular-nums sm:text-4xl">
+      <span aria-hidden="true">{shown}</span>
+      <span className="sr-only">{value}</span>
+    </dd>
   )
 }
 
@@ -76,7 +90,7 @@ export function Hero({ profile, stats }: HeroProps) {
             {stats.map((stat) => (
               <div key={stat.label} className="flex flex-col-reverse gap-1 border-l border-line pl-4">
                 <dt className="text-xs leading-snug text-dim">{stat.label}</dt>
-                <dd className="font-display text-3xl font-bold text-white sm:text-4xl">{stat.value}</dd>
+                <StatValue value={stat.value} isActive={isLoaded} />
               </div>
             ))}
           </dl>

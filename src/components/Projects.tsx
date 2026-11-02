@@ -6,6 +6,10 @@ import { SectionHeader } from './SectionHeader'
 
 const slug = (title: string) => title.toLowerCase().replace(/[^a-z0-9]+/g, '-')
 
+// Classic cards sit two to a row; the right-hand one follows the left by this much.
+const ROW_STAGGER_MS = 120
+const CARDS_PER_ROW = 2
+
 /** Classic view: every project's full write-up, charts and lab inline. */
 function ProjectCards({ items }: { items: Project[] }) {
   return (
@@ -14,7 +18,13 @@ function ProjectCards({ items }: { items: Project[] }) {
         <SectionHeader id="projects" title="Selected work" />
         <div className="grid gap-5 lg:grid-cols-2">
           {items.map((project, i) => (
-            <article key={project.title} data-reveal aria-labelledby={`project-${slug(project.title)}`} className="panel p-6 sm:p-8">
+            <article
+              key={project.title}
+              data-reveal
+              aria-labelledby={`project-${slug(project.title)}`}
+              style={{ '--reveal-delay': (i % CARDS_PER_ROW) * ROW_STAGGER_MS } as React.CSSProperties}
+              className="panel p-6 sm:p-8"
+            >
               <p className="eyebrow">
                 {String(i + 1).padStart(2, '0')} · {project.category}
               </p>
@@ -52,9 +62,9 @@ function ProjectScreens({ items }: { items: Project[] }) {
         <p data-reveal className="mb-4 font-mono text-xs text-dim">
           Click a screen — or pick a project:
         </p>
-        <ul data-reveal className="flex flex-wrap gap-2">
+        <ul data-reveal data-stagger className="flex flex-wrap gap-2">
           {items.map((project, i) => (
-            <li key={project.title}>
+            <li key={project.title} style={{ '--i': i } as React.CSSProperties}>
               <button
                 type="button"
                 onClick={() => focusProject(i)}
